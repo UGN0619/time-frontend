@@ -7,7 +7,7 @@ function Header() {
       <img
         src={logo}
         alt="logo"
-        width={"60px"}
+        width={"80px"}
         style={{ marginLeft: "20px" }}
       />
       <h1 style={{ marginRight: "20px" }}>Миний таск зохицуулагч</h1>

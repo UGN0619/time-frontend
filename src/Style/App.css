@@ -25,14 +25,16 @@
 }
 
 .select {
-    width: 200px;
+    width: 100%;
     padding: 10px;
+    height: 80px;
     font-size: 15px;
     padding: 10px 20px 10px 5px;
     align-self: flex-end;
     border: none;
     border-radius: 5px;
     background-color: #cccedf;
+    text-align: center;
 }
 
 .sub-container {

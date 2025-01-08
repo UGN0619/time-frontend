@@ -55,62 +55,34 @@ const HomePage = () => {
           alignItems: "center",
         }}
       >
-        <h1 style={{ fontSize: "40px", marginBottom: "-10px" }}>Таскууд</h1>
+        <h1 style={{ fontSize: "40px", marginBottom: "-10px" }}>ЦАГ БҮРТГЭЛ</h1>
         <div className="container">
           <div className="sub-container">
-            <button
-              className="btn"
-              onClick={() => {
-                window.location.href = "/add";
-              }}
-            >
-              Add Task
-            </button>
-            <select className="select">
-              <option>All</option>
-              <option>Completed</option>
-              <option>Uncompleted</option>
+            <select className="select" defaultValue={1}>
+              <option>Ажилчины нэр сонгоно уу.</option>
+              <option>Name1</option>
+              <option>Name2</option>
+              <option>Name3</option>
             </select>
           </div>
           <div className="sub-container-2">
-            {tasks.map((todo) => (
-              <div key={todo._id} className="task">
-                <div className="task-name">
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    checked={todo.completed || false}
-                    onChange={() => {}}
-                  />
-                  <div style={{ textAlign: "left" }}>
-                    <p>{todo.title}</p>
-                    <p style={{ fontSize: "10px", marginTop: "-15px" }}>
-                      {todo.description}
-                    </p>
-                  </div>
-                </div>
-                <div>
-                  <button
-                    className="btn"
-                    style={{ marginRight: "10px" }}
-                    onClick={() => {
-                      window.location.href = `/edit/${todo._id}`;
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn"
-                    onClick={() => {
-                      setVisible(true);
-                      setTaskIDDelete(todo._id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
+            <div className="task">
+              <div className="task-details">
+                <input
+                  type="checkbox"
+                  className="checkbox"
+                  onChange={() => {}}
+                />
               </div>
-            ))}
+              <div>
+                <button className="btn" style={{ marginRight: "10px" }}>
+                  Work Start
+                </button>
+                <button className="btn" onClick={() => {}}>
+                  Work End
+                </button>
+              </div>
+            </div>
             {tasks.length === 0 && <p>No tasks found!</p>}
           </div>
         </div>
@@ -118,7 +90,7 @@ const HomePage = () => {
         {/* Delete Modal */}
         {isVisible && (
           <div className="delete-modal">
-            <h5>Are you sure you want to delete this item?</h5>
+            <h5>Are you sure you want to delete this task?</h5>
             <button
               className="btn"
               onClick={() => {
