@@ -1,46 +1,62 @@
+import React, { useState, useEffect } from "react";
 import "../index.css";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import "../Style/App.css";
-import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const HomePage = () => {
-  const [isVisible, setVisible] = useState(false);
-  const [taskIDDelete, setTaskIDDelete] = useState(null);
-  const [tasks, setTasks] = useState([]);
+  const [user, setUser] = useState(null);
+  const [userCode, setUserCode] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
-  // Fetch tasks on component mount
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/tasks")
-      .then((response) => {
-        setTasks(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching tasks!", error);
-      });
+    const interval = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
-  // Handle task deletion
-  const handleDelete = (taskID) => {
-    if (!taskID) {
-      alert("Invalid Task ID!");
-      return;
-    }
+  const formatTitle = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Months are 0-based
+    const day = date.getDate();
+    return `${year} оны ${month} сарын ${day} ны цаг бүртгэл`;
+  };
 
+  const getUser = (userId) => {
     axios
-      .delete(`http://localhost:3000/api/tasks/${taskID}`)
-      .then(() => {
-        alert("Task deleted successfully!");
-        setTasks((prevTasks) =>
-          prevTasks.filter((task) => task._id !== taskID)
-        );
-        setVisible(false);
-        setTaskIDDelete(null);
+      .get(`http://localhost:3000/api/times/${userId}`)
+      .then((res) => {
+        setUser(res.data);
       })
       .catch((error) => {
-        console.error("Error deleting task!", error);
+        console.error("Error getting user!", error);
+      });
+  };
+
+  const handleWorkStart = (taskID) => {
+    axios
+      .post(`http://localhost:3000/api/tasks/${taskID}/start`)
+      .then(() => {
+        alert("Work started successfully!");
+      })
+      .catch((error) => {
+        console.error("Error starting work!", error);
+      });
+  };
+
+  const handleWorkEnd = (taskID) => {
+    axios
+      .post(`http://localhost:3000/api/tasks/${taskID}/end`)
+      .then(() => {
+        alert("Work ended successfully!");
+      })
+      .catch((error) => {
+        console.error("Error ending work!", error);
       });
   };
 
@@ -53,64 +69,56 @@ const HomePage = () => {
           justifyContent: "center",
           flexDirection: "column",
           alignItems: "center",
+          height: "69vh",
         }}
       >
-        <h1 style={{ fontSize: "40px", marginBottom: "-10px" }}>ЦАГ БҮРТГЭЛ</h1>
+        <h1 style={{ fontSize: "40px" }}>{formatTitle(currentDateTime)}</h1>
         <div className="container">
           <div className="sub-container">
-            <select className="select" defaultValue={1}>
-              <option>Ажилчины нэр сонгоно уу.</option>
-              <option>Name1</option>
-              <option>Name2</option>
-              <option>Name3</option>
-            </select>
+            <input
+              className="select"
+              placeholder="Ажилчины код оруулна уу."
+              value={userCode}
+              onChange={(e) => setUserCode(e.target.value)}
+            />
+            <button
+              className="btn"
+              onClick={() => {
+                getUser(userCode);
+                setVisible(true);
+              }}
+            >
+              ХАЙХ
+            </button>
           </div>
           <div className="sub-container-2">
-            <div className="task">
-              <div className="task-details">
-                <input
-                  type="checkbox"
-                  className="checkbox"
-                  onChange={() => {}}
-                />
+            {visible ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <h2>Tuguldur</h2>
+                <div>
+                  <button className="btn" onClick={handleWorkStart}>
+                    Work Start
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={handleWorkEnd}
+                    style={{ display: "none" }}
+                  >
+                    Work End
+                  </button>
+                </div>
               </div>
-              <div>
-                <button className="btn" style={{ marginRight: "10px" }}>
-                  Work Start
-                </button>
-                <button className="btn" onClick={() => {}}>
-                  Work End
-                </button>
-              </div>
-            </div>
-            {tasks.length === 0 && <p>No tasks found!</p>}
+            ) : null}
           </div>
         </div>
-
-        {/* Delete Modal */}
-        {isVisible && (
-          <div className="delete-modal">
-            <h5>Are you sure you want to delete this task?</h5>
-            <button
-              className="btn"
-              onClick={() => {
-                handleDelete(taskIDDelete);
-              }}
-            >
-              Delete
-            </button>
-            <button
-              style={{ marginLeft: "10px" }}
-              className="btn"
-              onClick={() => {
-                setVisible(false);
-                setTaskIDDelete(null);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        )}
       </div>
       <Footer />
     </div>

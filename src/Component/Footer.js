@@ -3,7 +3,12 @@ import "../Style/Footer.css";
 function Footer() {
   return (
     <div className="footer">
-      <p>&copy; 2021 My Website. All Rights Reserved.</p>
+      <div style={{ padding: "40px" }}>
+        <a href="/time-tracker" className="btn">
+          {" "}
+          Time Sheet
+        </a>
+      </div>
     </div>
   );
 }

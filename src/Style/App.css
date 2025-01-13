@@ -27,7 +27,7 @@
 .select {
     width: 100%;
     padding: 10px;
-    height: 80px;
+    height: 40px;
     font-size: 15px;
     padding: 10px 20px 10px 5px;
     align-self: flex-end;
@@ -35,6 +35,8 @@
     border-radius: 5px;
     background-color: #cccedf;
     text-align: center;
+    font-size: large;
+    margin-right: 20px;
 }
 
 .sub-container {
