@@ -9,6 +9,17 @@ function Footer() {
           Time Sheet
         </a>
       </div>
+      <div style={{ padding: "40px" }}>
+        <a href="/info" className="btn">
+          {" "}
+          Information
+        </a>
+      </div><div style={{ padding: "40px" }}>
+        <a href="/about" className="btn">
+          {" "}
+          About Us
+        </a>
+      </div>
     </div>
   );
 }
