@@ -63,44 +63,77 @@ const TimeTracker = () => {
 
             {showModal && (
                 <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <div style={{ background: 'white', padding: '20px', borderRadius: '5px', width: '400px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}>
+                    <div style={{ background: 'white', padding: '20px', borderRadius: '10px', width: '400px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}>
                         <h2 style={{ textAlign: 'center', marginBottom: '20px', color: '#333' }}>Add New Worker</h2>
-                        <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Worker ID:</label>
-                        <input
-                            type="text"
-                            name="id"
-                            placeholder="Worker ID"
-                            value={newWorker.id}
-                            onChange={handleNewWorkerChange}
-                            style={{ marginBottom: '10px', width: '100%', padding: '10px', borderRadius: '3px', border: '1px solid #ccc' }}
-                        />
-                        <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Worker Name:</label>
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="Worker Name"
-                            value={newWorker.name}
-                            onChange={handleNewWorkerChange}
-                            style={{ marginBottom: '10px', width: '100%', padding: '10px', borderRadius: '3px', border: '1px solid #ccc' }}
-                        />
-                        <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Default Duration (minutes):</label>
-                        <input
-                            type="number"
-                            name="duration"
-                            placeholder="Default Duration (minutes)"
-                            value={newWorker.duration}
-                            onChange={handleNewWorkerChange}
-                            style={{ marginBottom: '20px', width: '100%', padding: '10px', borderRadius: '3px', border: '1px solid #ccc' }}
-                        />
+                        <div style={{ marginBottom: '15px' }}>
+                            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: '#555' }}>Worker ID:</label>
+                            <input
+                                type="text"
+                                name="id"
+                                placeholder="Enter Worker ID"
+                                value={newWorker.id}
+                                onChange={handleNewWorkerChange}
+                                style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', boxSizing: 'border-box' }}
+                            />
+                        </div>
+                        <div style={{ marginBottom: '15px' }}>
+                            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: '#555' }}>Worker Name:</label>
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Enter Worker Name"
+                                value={newWorker.name}
+                                onChange={handleNewWorkerChange}
+                                style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', boxSizing: 'border-box' }}
+                            />
+                        </div>
+                        <div style={{ marginBottom: '20px' }}>
+                            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: '#555' }}>Default Duration:</label>
+                            <div style={{ display: 'flex', gap: '10px' }}>
+                                <input
+                                    type="number"
+                                    name="hours"
+                                    placeholder="Hours"
+                                    min="0"
+                                    max="23"
+                                    value={Math.floor(newWorker.duration / 60)} // Convert minutes to hours
+                                    onChange={(e) => {
+                                        const hours = parseInt(e.target.value, 10) || 0;
+                                        setNewWorker(prevState => ({
+                                            ...prevState,
+                                            duration: (hours * 60) + (prevState.duration % 60), // Update duration with new hours
+                                        }));
+                                    }}
+                                    style={{ width: '50%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', boxSizing: 'border-box' }}
+                                />
+                                <input
+                                    type="number"
+                                    name="minutes"
+                                    placeholder="Minutes"
+                                    min="0"
+                                    max="59"
+                                    value={newWorker.duration % 60} // Get remaining minutes
+                                    onChange={(e) => {
+                                        const minutes = parseInt(e.target.value, 10) || 0;
+                                        setNewWorker(prevState => ({
+                                            ...prevState,
+                                            duration: (Math.floor(prevState.duration / 60) * 60) + minutes, // Update duration with new minutes
+                                        }));
+                                    }}
+                                    style={{ width: '50%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', boxSizing: 'border-box' }}
+                                />
+                            </div>
+                        </div>
+
                         <button
-                            onClick={() => (setShowModal(false), handleAddWorker)}
-                            style={{ width: '100%', padding: '10px', borderRadius: '3px', border: 'none', backgroundColor: '#4CAF50', color: 'white', cursor: 'pointer', marginBottom: '10px', fontWeight: 'bold' }}
+                            onClick={handleAddWorker}
+                            style={{ width: '100%', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#4CAF50', color: 'white', cursor: 'pointer', fontWeight: 'bold', marginBottom: '10px' }}
                         >
                             Add Worker
                         </button>
                         <button
                             onClick={() => setShowModal(false)}
-                            style={{ width: '100%', padding: '10px', borderRadius: '3px', border: 'none', backgroundColor: '#f44336', color: 'white', cursor: 'pointer', fontWeight: 'bold' }}
+                            style={{ width: '100%', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#f44336', color: 'white', cursor: 'pointer', fontWeight: 'bold' }}
                         >
                             Cancel
                         </button>
