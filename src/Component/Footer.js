@@ -3,7 +3,8 @@ import "../Style/Footer.css";
 function Footer() {
   return (
     <div className="footer">
-      <p>Copyright 2021 Joto education center.</p>
+      <p>© 2021 Joto Education center. All rights reserved.
+      </p>
 
     </div>
   );
