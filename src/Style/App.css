@@ -1,13 +1,14 @@
 .btn {
     color: white;
-    background-color: #6270ef;
+    background-color: none;
+    /* #6270ef */
     border: none;
     padding: 10px 20px 10px 20px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
         'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
         sans-serif;
     font-size: 15px;
-    border-radius: 5px;
+    border-radius: 20px;
     font-weight: bold;
     align-self: flex-start;
     cursor: pointer;

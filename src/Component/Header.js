@@ -31,30 +31,30 @@ function Header() {
         width={"80px"}
         style={{ marginLeft: "20px" }}
       />
-      <div style={{ display: "flex", justifyContent: "center", textAlign: "center", marginLeft: "150px", border: "1px solid black" }}>
+      <div style={{ display: "flex", justifyContent: "space-around", textAlign: "center", marginLeft: "150px", height: "100%", alignItems: "center" }}>
 
-        <div style={{ padding: "30px" }}>
-          <a href="/time-tracker" className="btn">
+        <div style={{ padding: "10px" }}>
+          <a href="/addworker" className="btn">
             {" "}
             Шинэ ажилтан нэмэх
           </a>
         </div>
 
-        <div style={{ padding: "30px" }}>
+        <div style={{ padding: "10px" }}>
           <a href="/time-tracker" className="btn">
             {" "}
             Цагийн хүснэгт
           </a>
         </div>
 
-        <div style={{ padding: "30px" }}>
+        <div style={{ padding: "10px" }}>
           <a href="/info" className="btn">
             {" "}
             Мэдээлэл
           </a>
         </div>
 
-        <div style={{ padding: "30px" }}>
+        <div style={{ padding: "10px" }}>
           <a href="/about" className="btn">
             {" "}
             Бидний тухай
