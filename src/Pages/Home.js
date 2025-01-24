@@ -82,7 +82,7 @@ const HomePage = () => {
               onChange={(e) => setUserCode(e.target.value)}
             />
             <button
-              className="btn"
+              className="btn1"
               onClick={() => {
                 getUser(userCode);
                 setVisible(true);
@@ -104,11 +104,11 @@ const HomePage = () => {
               >
                 <h2>Tuguldur</h2>
                 <div>
-                  <button className="btn" onClick={handleWorkStart}>
+                  <button className="btn1" onClick={handleWorkStart}>
                     Work Start
                   </button>
                   <button
-                    className="btn"
+                    className="btn1"
                     onClick={handleWorkEnd}
                     style={{ display: "none" }}
                   >
