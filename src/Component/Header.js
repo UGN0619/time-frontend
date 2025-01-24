@@ -31,7 +31,29 @@ function Header() {
         width={"80px"}
         style={{ marginLeft: "20px" }}
       />
-      <h1 style={{ marginRight: "20px" }}>{formatDateTime(currentDateTime)}</h1>
+      <div style={{ display: "flex", justifyContent: "center", marginLeft: "150px" }}>
+        <div style={{ padding: "30px" }}>
+          <a href="/time-tracker" className="btn">
+            {" "}
+            Цагийн хүснэгт
+          </a>
+        </div>
+
+        <div style={{ padding: "30px" }}>
+          <a href="/info" className="btn">
+            {" "}
+            Мэдээлэл
+          </a>
+        </div>
+
+        <div style={{ padding: "30px" }}>
+          <a href="/about" className="btn">
+            {" "}
+            Бидний тухай
+          </a>
+        </div>
+      </div>
+      <h3 style={{ marginRight: "20px" }}>{formatDateTime(currentDateTime)}</h3>
     </div>
   );
 }
