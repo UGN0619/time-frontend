@@ -31,7 +31,15 @@ function Header() {
         width={"80px"}
         style={{ marginLeft: "20px" }}
       />
-      <div style={{ display: "flex", justifyContent: "center", marginLeft: "150px" }}>
+      <div style={{ display: "flex", justifyContent: "center", textAlign: "center", marginLeft: "150px", border: "1px solid black" }}>
+
+        <div style={{ padding: "30px" }}>
+          <a href="/time-tracker" className="btn">
+            {" "}
+            Шинэ ажилтан нэмэх
+          </a>
+        </div>
+
         <div style={{ padding: "30px" }}>
           <a href="/time-tracker" className="btn">
             {" "}
