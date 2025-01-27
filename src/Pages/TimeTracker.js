@@ -58,10 +58,10 @@ const TimeTracker = () => {
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.name}</td>
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.startTime ? new Date(worker.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</td>
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.endTime ? new Date(worker.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? formatDuration(worker.totalWorked) : '0m'}</td>
+                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorkedMinutes ? formatDuration(worker.totalWorked) : '0m'}</td>
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{formatDuration(worker.totalWorkingMinutes)}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? () => { const missingMinutes = Math.max(0, worker.totalWorkingMinutes - worker.totalWorked); formatDuration(missingMinutes) } : '0m'}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? () => { const additionalMinutes = Math.max(0, worker.totalWorked - worker.totalWorkingMinutes); formatDuration(additionalMinutes) } : '0m'}</td>
+                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorkedMinutes ? () => { const missingMinutes = Math.max(0, worker.totalWorkingMinutes - worker.totalWorked); formatDuration(missingMinutes) } : '0m'}</td>
+                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorkedMinutes ? () => { const additionalMinutes = Math.max(0, worker.totalWorked - worker.totalWorkingMinutes); formatDuration(additionalMinutes) } : '0m'}</td>
                             </tr>
                         ))}
                     </tbody>
