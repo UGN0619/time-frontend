@@ -40,10 +40,21 @@ const AddWorkerPage = () => {
     const handleSaveWorker = () => {
         if (newWorker.id && newWorker.name && newWorker.email) {
             const totalMinutes = calculateTotalWorkingMinutes();
-            const workerData = { ...newWorker, totalWorkingMinutes: totalMinutes };
+
+            // Create FormData to include both JSON data and the file
+            const formData = new FormData();
+            formData.append('profilePicture', profilePicture);
+            formData.append(
+                'workerData',
+                JSON.stringify({ ...newWorker, totalWorkingMinutes: totalMinutes })
+            );
 
             axios
-                .post('/api/workers', workerData)
+                .post('/api/workers', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
                 .then(() => {
                     alert('Worker added successfully!');
                     setNewWorker({
@@ -65,6 +76,7 @@ const AddWorkerPage = () => {
             alert('Please fill out all required fields.');
         }
     };
+
 
     const handleDeleteWorker = () => {
         if (newWorker.id) {

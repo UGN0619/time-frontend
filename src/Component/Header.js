@@ -25,12 +25,14 @@ function Header() {
 
   return (
     <div className="header">
-      <img
-        src={logo}
-        alt="logo"
-        width={"80px"}
-        style={{ marginLeft: "20px" }}
-      />
+      <a href="/">
+        <img
+          src={logo}
+          alt="logo"
+          width={"80px"}
+          style={{ marginLeft: "20px" }}
+        />
+      </a>
       <div style={{ display: "flex", justifyContent: "space-around", textAlign: "center", marginLeft: "150px", height: "100%", alignItems: "center" }}>
 
         <div style={{ padding: "10px" }}>

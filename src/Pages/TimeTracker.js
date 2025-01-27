@@ -46,6 +46,7 @@ const TimeTracker = () => {
                             <th style={{ padding: '10px', border: '1px solid #ddd' }}>Start Time</th>
                             <th style={{ padding: '10px', border: '1px solid #ddd' }}>Finish Time</th>
                             <th style={{ padding: '10px', border: '1px solid #ddd' }}>Total Worked</th>
+                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Must Work Duration</th>
                             <th style={{ padding: '10px', border: '1px solid #ddd' }}>Missing Time</th>
                             <th style={{ padding: '10px', border: '1px solid #ddd' }}>Additional Time</th>
                         </tr>
@@ -58,6 +59,7 @@ const TimeTracker = () => {
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.startTime ? new Date(worker.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</td>
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.endTime ? new Date(worker.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</td>
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? formatDuration(worker.totalWorked) : '0m'}</td>
+                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{formatDuration(worker.totalWorkingMinutes)}</td>
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? calculateMissingTime(worker.totalWorked) : '0m'}</td>
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? calculateAdditionalTime(worker.totalWorked) : '0m'}</td>
                             </tr>
