@@ -60,7 +60,7 @@ const TimeTracker = () => {
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.endTime ? new Date(worker.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</td>
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? formatDuration(worker.totalWorked) : '0m'}</td>
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{formatDuration(worker.totalWorkingMinutes)}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? calculateMissingTime(worker.totalWorked) : '0m'}</td>
+                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? () => { const missingMinutes = Math.max(0, worker.totalWorkingMinutes - worker.totalWorked); formatDuration(missingMinutes) } : '0m'}</td>
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? calculateAdditionalTime(worker.totalWorked) : '0m'}</td>
                             </tr>
                         ))}

@@ -244,7 +244,11 @@ const AddWorkerPage = () => {
                                 id="workingHours"
                                 placeholder="Цагаар оруулна уу"
                                 value={newWorker.workingHours}
-                                onChange={handleInputChange}
+                                onChange={(e) => {
+                                    if (e.target.value <= 24 && e.target.value >= 0) {
+                                        handleInputChange(e);
+                                    }
+                                }}
                                 style={{
                                     width: '95%',
                                     padding: '6px 12px',
@@ -265,7 +269,7 @@ const AddWorkerPage = () => {
                                 placeholder="Минутаар оруулна уу"
                                 value={newWorker.workingMinutes}
                                 onChange={(e) => {
-                                    if (e.target.value <= 59) {
+                                    if (e.target.value <= 59 && e.target.value >= 0) {
                                         handleInputChange(e);
                                     }
                                 }}
