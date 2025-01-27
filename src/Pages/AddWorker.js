@@ -50,7 +50,7 @@ const AddWorkerPage = () => {
             );
 
             axios
-                .post('/api/user', formData, {
+                .post('/api/users', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
