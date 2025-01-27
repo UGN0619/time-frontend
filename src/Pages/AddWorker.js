@@ -5,7 +5,7 @@ import Footer from "../Component/Footer";
 
 const AddWorkerPage = () => {
     const [newWorker, setNewWorker] = useState({
-        id: '',
+        code: '',
         name: '',
         phone: '',
         education: '',
@@ -38,7 +38,7 @@ const AddWorkerPage = () => {
     };
 
     const handleSaveWorker = () => {
-        if (newWorker.id && newWorker.name && newWorker.email) {
+        if (newWorker.id && newWorker.name && newWorker.email && newWorker.totalWorkingMinutes) {
             const totalMinutes = calculateTotalWorkingMinutes();
 
             // Create FormData to include both JSON data and the file
@@ -50,7 +50,7 @@ const AddWorkerPage = () => {
             );
 
             axios
-                .post('/api/workers', formData, {
+                .post('/api/user', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -81,7 +81,7 @@ const AddWorkerPage = () => {
     const handleDeleteWorker = () => {
         if (newWorker.id) {
             axios
-                .delete(`/api/workers/${newWorker.id}`)
+                .delete(`/api/user/${newWorker.id}`)
                 .then(() => {
                     alert('Worker deleted successfully!');
                     setNewWorker({

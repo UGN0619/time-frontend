@@ -11,7 +11,7 @@ const TimeTracker = () => {
 
     useEffect(() => {
         // Fetch worker data from the database
-        axios.get('/api/workers')
+        axios.get('/api/user')
             .then(response => setWorkers(response.data))
             .catch(error => console.error('Error fetching worker data:', error));
     }, []);
