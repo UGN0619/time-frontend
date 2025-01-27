@@ -61,7 +61,7 @@ const TimeTracker = () => {
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? formatDuration(worker.totalWorked) : '0m'}</td>
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{formatDuration(worker.totalWorkingMinutes)}</td>
                                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? () => { const missingMinutes = Math.max(0, worker.totalWorkingMinutes - worker.totalWorked); formatDuration(missingMinutes) } : '0m'}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? () => { const additionalMinutes = Math.max(0, workedMinutes - worker.totalWorkingMinutes); formatDuration(additionalMinutes) } : '0m'}</td>
+                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{worker.totalWorked ? () => { const additionalMinutes = Math.max(0, worker.totalWorked - worker.totalWorkingMinutes); formatDuration(additionalMinutes) } : '0m'}</td>
                             </tr>
                         ))}
                     </tbody>
