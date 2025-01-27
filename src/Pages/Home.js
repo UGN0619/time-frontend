@@ -4,6 +4,7 @@ import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import "../Style/App.css";
 import axios from "axios";
+import { Button, Input } from "antd";
 
 const HomePage = () => {
   const [user, setUser] = useState(null);
@@ -89,15 +90,20 @@ const HomePage = () => {
           {error && <div className="errorMessage">{error.message}</div>}
           <h1>{formatTitle(currentDateTime)}</h1>
           <div className="sub-container">
-            <input
-              className="select"
+            <Input
               placeholder="Ажилчины код оруулна уу."
               value={userCode}
               onChange={handleCodeChange}
+              size="large"
+              style={{ marginRight: "10px", width: "300px" }}
             />
-            <button className="btn1" onClick={() => getUser(userCode)}>
+            <Button
+              type="primary"
+              size="large"
+              onClick={() => getUser(userCode)}
+            >
               ХАЙХ
-            </button>
+            </Button>
           </div>
 
           {user && (
