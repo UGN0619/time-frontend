@@ -8,15 +8,15 @@ import axios from "axios";
 const HomePage = () => {
   const [user, setUser] = useState(null);
   const [userCode, setUserCode] = useState("");
-  const [visible, setVisible] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [error, setError] = useState(null);
+  const [isStarted, setIsStarted] = useState(false);
+  const [startedTime, setStartedTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [totalWorkedMinutes, setTotalWorkedMinutes] = useState(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentDateTime(new Date());
-    }, 1000);
-
-    // Cleanup interval on component unmount
+    const interval = setInterval(() => setCurrentDateTime(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -27,97 +27,108 @@ const HomePage = () => {
     return `${year} оны ${month} сарын ${day} ны цаг бүртгэл`;
   };
 
-  const getUser = (userId) => {
-    axios
-      .get(`http://localhost:3000/api/times/${userId}`)
-      .then((res) => {
-        setUser(res.data);
-      })
-      .catch((error) => {
-        console.error("Error getting user!", error);
-      });
+  const getUser = async (userId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/time/today/${userId}`
+      );
+      setUser(response.data.data);
+      setIsStarted(response.data.isStarted);
+      setStartedTime(response.data.startedTime);
+      setEndTime(response.data.endTime);
+      setTotalWorkedMinutes(response.data.totalWorkedMinutes);
+    } catch (error) {
+      setError(error);
+    }
   };
 
-  const handleWorkStart = (taskID) => {
-    axios
-      .post(`http://localhost:3000/api/tasks/${taskID}/start`)
-      .then(() => {
-        alert("Work started successfully!");
-      })
-      .catch((error) => {
-        console.error("Error starting work!", error);
+  const handleWorkStart = async (userId) => {
+    try {
+      await axios.post("http://localhost:3000/api/time/start", {
+        user_id: userId,
       });
+      alert("Ажил эхэллээ! Өнөөлрийн ажилд тань амжилт хүсье!");
+      setIsStarted(true);
+    } catch (error) {
+      setError(error);
+    }
   };
 
-  const handleWorkEnd = (taskID) => {
-    axios
-      .post(`http://localhost:3000/api/tasks/${taskID}/end`)
-      .then(() => {
-        alert("Work ended successfully!");
-      })
-      .catch((error) => {
-        console.error("Error ending work!", error);
+  const handleWorkEnd = async (userId) => {
+    try {
+      await axios.post("http://localhost:3000/api/time/end", {
+        user_id: userId,
+        endTime: new Date(),
       });
+      alert("Ажил дууслаа! Сайхан амраарай!");
+      window.location.reload();
+    } catch (error) {
+      setError(error);
+    }
   };
+
+  const handleCodeChange = (e) => setUserCode(e.target.value);
 
   return (
     <div>
       <Header />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
-          alignItems: "center",
-          height: "69vh",
-        }}
-      >
-        <h1 style={{ fontSize: "40px" }}>{formatTitle(currentDateTime)}</h1>
-        <div className="container">
+      <div className="main-container">
+        {error && <p>{error.message}</p>}
+        <div
+          className="container"
+          style={{ marginTop: "50px", marginBottom: "50px" }}
+        >
+          <h1>{formatTitle(currentDateTime)}</h1>
           <div className="sub-container">
             <input
               className="select"
               placeholder="Ажилчины код оруулна уу."
               value={userCode}
-              onChange={(e) => setUserCode(e.target.value)}
+              onChange={handleCodeChange}
             />
-            <button
-              className="btn1"
-              onClick={() => {
-                getUser(userCode);
-                setVisible(true);
-              }}
-            >
+            <button className="btn1" onClick={() => getUser(userCode)}>
               ХАЙХ
             </button>
           </div>
-          <div className="sub-container-2">
-            {visible ? (
-              <div
-                style={{
-                  textAlign: "center",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <h2>Tuguldur</h2>
+
+          {user && (
+            <div className="sub-container-2">
+              <div className="user-info">
+                <h2>Ажилчины нэр: {user.user_name}</h2>
+                <p>Ажилчины код: {user.user_id}</p>
+                {startedTime ? <p>Ажил эхэлсэн цаг: {startedTime}</p> : ""}
+                {endTime ? <p>Ажил дууссан цаг: {endTime}</p> : ""}
+                {totalWorkedMinutes ? (
+                  <p>Нийт ажилласан цаг: {totalWorkedMinutes} минут </p>
+                ) : (
+                  ""
+                )}
                 <div>
-                  <button className="btn1" onClick={handleWorkStart}>
-                    Work Start
-                  </button>
-                  <button
-                    className="btn1"
-                    onClick={handleWorkEnd}
-                    style={{ display: "none" }}
-                  >
-                    Work End
-                  </button>
+                  {!isStarted ? (
+                    <button
+                      className="btn1"
+                      style={{
+                        display: endTime !== "Invalid Date" ? "none" : "block",
+                      }}
+                      onClick={() => handleWorkStart(user.user_id)}
+                    >
+                      Ажил эхэллэх
+                    </button>
+                  ) : (
+                    <button
+                      className="btn1"
+                      style={{
+                        display: endTime !== "Invalid Date" ? "none" : "block",
+                      }}
+                      onClick={() => handleWorkEnd(user.user_id)}
+                    >
+                      Ажил дуусгах
+                    </button>
+                  )}
                 </div>
               </div>
-            ) : null}
-          </div>
+            </div>
+          )}
         </div>
       </div>
       <Footer />

@@ -16,10 +16,10 @@ function Header() {
 
   const formatDateTime = (date) => {
     const year = date.getFullYear();
-    const month = date.getMonth() + 1; // Months are 0-based
-    const day = date.getDate();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Pads month
+    const day = String(date.getDate()).padStart(2, "0"); // Pads day
+    const hours = String(date.getHours()).padStart(2, "0"); // Pads hours
+    const minutes = String(date.getMinutes()).padStart(2, "0"); // Pads minutes
     return `${year} оны ${month} сарын ${day} ${hours}:${minutes}`;
   };
 
