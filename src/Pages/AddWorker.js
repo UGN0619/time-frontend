@@ -383,7 +383,7 @@ const AddWorkerPage = () => {
                                 fontSize: '14px',
                             }}
                         >
-                            Устгах
+                            Буцах
                         </button>
                         <button
                             onClick={handleSaveWorker}
