@@ -85,6 +85,7 @@ const HomePage = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            minHeight: "50vh",
           }}
         >
           {error && <div className="errorMessage">{error.message}</div>}
