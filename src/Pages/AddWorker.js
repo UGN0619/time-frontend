@@ -143,8 +143,8 @@ const AddWorkerPage = () => {
                                 />
                             ) : (
                                 <img
-                                    src="/placeholder-profile.png"
-                                    alt="Profile"
+                                    src=""
+                                    alt=""
                                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                 />
                             )}

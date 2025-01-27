@@ -36,19 +36,19 @@ const TimeTracker = () => {
         <div>
             <Header />
             <div style={{ fontFamily: 'Arial, sans-serif', margin: '20px' }}>
-                <h1 style={{ textAlign: 'center', color: '#61abff' }}>Workers' Work Time Tracker</h1>
+                <h1 style={{ textAlign: 'center', color: '#61abff' }}>Ажилчдын цагийн хүснэгт</h1>
 
                 <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
                     <thead>
                         <tr style={{ backgroundColor: '#61abff', color: 'white' }}>
-                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Worker ID</th>
-                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Worker Name</th>
-                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Start Time</th>
-                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Finish Time</th>
-                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Total Worked</th>
-                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Must Work Duration</th>
-                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Missing Time</th>
-                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Additional Time</th>
+                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Ажилчны код</th>
+                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Ажилчны нэр</th>
+                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Эхлэх цаг</th>
+                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Дуусах цаг</th>
+                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Нийт ажилласан хугацаа</th>
+                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Үндсэн ажиллах хугацаа</th>
+                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Дутуу цаг</th>
+                            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Илүү цаг</th>
                         </tr>
                     </thead>
                     <tbody>
