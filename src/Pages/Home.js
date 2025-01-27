@@ -37,7 +37,9 @@ const HomePage = () => {
       setStartedTime(response.data.startedTime);
       setEndTime(response.data.endTime);
       setTotalWorkedMinutes(response.data.totalWorkedMinutes);
+      setError(null);
     } catch (error) {
+      setUser(null);
       setError(error);
     }
   };
@@ -49,6 +51,7 @@ const HomePage = () => {
       });
       alert("Ажил эхэллээ! Өнөөлрийн ажилд тань амжилт хүсье!");
       setIsStarted(true);
+      window.location.reload();
     } catch (error) {
       setError(error);
     }
@@ -73,11 +76,17 @@ const HomePage = () => {
     <div>
       <Header />
       <div className="main-container">
-        {error && <p>{error.message}</p>}
         <div
           className="container"
-          style={{ marginTop: "50px", marginBottom: "50px" }}
+          style={{
+            marginTop: "50px",
+            marginBottom: "50px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
+          {error && <div className="errorMessage">{error.message}</div>}
           <h1>{formatTitle(currentDateTime)}</h1>
           <div className="sub-container">
             <input
@@ -108,7 +117,7 @@ const HomePage = () => {
                     <button
                       className="btn1"
                       style={{
-                        display: endTime !== "Invalid Date" ? "none" : "block",
+                        display: endTime ? "none" : "block",
                       }}
                       onClick={() => handleWorkStart(user.user_id)}
                     >
@@ -118,7 +127,7 @@ const HomePage = () => {
                     <button
                       className="btn1"
                       style={{
-                        display: endTime !== "Invalid Date" ? "none" : "block",
+                        display: endTime ? "none" : "block",
                       }}
                       onClick={() => handleWorkEnd(user.user_id)}
                     >
