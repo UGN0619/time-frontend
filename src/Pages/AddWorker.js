@@ -65,41 +65,30 @@ const AddWorkerPage = () => {
     user_totalWorkingMinutes: 0,
   });
 
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewWorker((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  // Handle file input change to save image in localStorage
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result; // base64 image data
-        localStorage.setItem("profilePicture", base64String); // Store it in localStorage
-      };
-      reader.readAsDataURL(file); // Convert the file to base64 string
+      //   setProfilePicture(URL.createObjectURL(file));
     }
   };
 
-  // Save worker data and include profile picture from localStorage
   const handleSaveWorker = () => {
     const totalMinutes = calculateTotalWorkingMinutes(
       newWorker.user_workingHours,
       newWorker.user_workingMinutes
     );
 
-    // Get the stored image from localStorage
-    const profilePicture = localStorage.getItem("profilePicture");
-
-    // Send the form data to the server, including the image data
+    // Send the form data to the server
     axios
       .post("http://localhost:3000/api/users", {
         ...newWorker,
         user_totalWorkingMinutes: totalMinutes,
-        user_profilePicture: profilePicture, // Send the base64 string as part of the request
+        // profilePicture,
       })
       .then(() => {
         alert("Амжилттай хадгалагдлаа!");
@@ -111,7 +100,6 @@ const AddWorkerPage = () => {
       });
   };
 
-  // Reset the form and clear profile picture from localStorage
   const resetForm = () => {
     setNewWorker({
       user_id: "",
@@ -125,7 +113,7 @@ const AddWorkerPage = () => {
       user_workingMinutes: "",
       user_totalWorkingMinutes: 0,
     });
-    localStorage.removeItem("profilePicture"); // Clear the profile picture from localStorage
+    // setProfilePicture(null);
   };
 
   return (

@@ -33,8 +33,16 @@ function Header() {
           style={{ marginLeft: "20px" }}
         />
       </a>
-      <div style={{ display: "flex", justifyContent: "space-around", textAlign: "center", marginLeft: "150px", height: "100%", alignItems: "center" }}>
-
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-around",
+          textAlign: "center",
+          marginLeft: "150px",
+          height: "100%",
+          alignItems: "center",
+        }}
+      >
         <div style={{ padding: "10px" }}>
           <a href="/addworker" className="btn">
             {" "}
