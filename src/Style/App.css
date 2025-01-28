@@ -46,6 +46,7 @@
   display: flex;
   flex-direction: column;
   margin: 20px;
+  height: calc(100vh - 250px);
 }
 
 /* Error message */
@@ -76,6 +77,7 @@
   flex-direction: row;
   justify-content: space-between;
   margin: 10px 0 10px 0;
+  width: 500px;
 }
 
 .task {
@@ -173,8 +175,7 @@ label {
     font-size: 20px;
     text-align: center;
   }
-  .input-code {
-    width: 150px;
-    margin-right: 10px;
+  .sub-container {
+    width: 250px;
   }
 }

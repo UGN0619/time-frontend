@@ -53,7 +53,7 @@ const HomePage = () => {
         user_name: user.user_name,
         user_totalWorkingMinutes: user.user_totalWorkingMinutes,
       });
-      alert("Ажил эхэллээ! Өнөөлрийн ажилд тань амжилт хүсье!");
+      alert("Ажил эхэллээ! Өнөөдрийн ажилд тань амжилт хүсье!");
       setIsStarted(true);
       window.location.reload();
     } catch (error) {
@@ -105,6 +105,7 @@ const HomePage = () => {
               className="input-code"
             />
             <Button
+              style={{ marginLeft: "10px" }}
               type="primary"
               size="large"
               onClick={() => getUser(userCode)}

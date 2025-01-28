@@ -120,7 +120,7 @@ const AddWorkerPage = () => {
     <div>
       <Header />
       <div style={{ padding: "16px", fontFamily: "Arial, sans-serif" }}>
-        <div className="container">
+        <div className="container" style={{ height: "80vh" }}>
           {/* Error Message */}
           {error && <div className="errorMessage">{error}</div>}
 

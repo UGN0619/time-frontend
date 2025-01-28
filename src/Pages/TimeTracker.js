@@ -99,7 +99,10 @@ const TimeTracker = () => {
                 </td>
                 <td style={{ padding: "10px", border: "1px solid #ddd" }}>
                   {formatDuration(
-                    worker.user_workTime - worker.totalWorkedMinutes
+                    Math.max(
+                      worker.user_workTime - worker.totalWorkedMinutes,
+                      0
+                    )
                   )}
                 </td>
                 <td style={{ padding: "10px", border: "1px solid #ddd" }}>

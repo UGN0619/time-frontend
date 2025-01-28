@@ -12,29 +12,29 @@ function Header() {
           style={{ marginLeft: "20px" }}
         />
       </a>
-      <div className="links" style={{}}>
-        <div style={{ padding: "10px" }}>
+      <div className="links">
+        <div style={{ padding: "10px", display: "flex" }}>
           <a href="/addworker" className="btn">
             {" "}
             Шинэ ажилтан нэмэх
           </a>
         </div>
 
-        <div style={{ padding: "10px" }}>
+        <div style={{ padding: "10px", display: "flex" }}>
           <a href="/time-tracker" className="btn">
             {" "}
             Цагийн хүснэгт
           </a>
         </div>
 
-        <div style={{ padding: "10px" }}>
+        <div style={{ padding: "10px", display: "flex" }}>
           <a href="/info" className="btn">
             {" "}
             Мэдээлэл
           </a>
         </div>
 
-        <div style={{ padding: "10px" }}>
+        <div style={{ padding: "10px", display: "flex" }}>
           <a href="/about" className="btn">
             {" "}
             Бидний тухай
