@@ -60,12 +60,12 @@ const HomePage = () => {
 
   const handleWorkEnd = async (userId) => {
     try {
-      await axios.post("http://localhost:3000/api/time/end", {
+      const response = await axios.post("http://localhost:3000/api/time/end", {
         user_id: userId,
-        endTime: new Date(),
       });
       alert("Ажил дууслаа! Сайхан амраарай!");
       window.location.reload();
+      console.log(response);
     } catch (error) {
       setError(error);
     }
@@ -135,6 +135,7 @@ const HomePage = () => {
                       className="btn1"
                       style={{
                         display: endTime ? "none" : "block",
+                        backgroundColor: "red",
                       }}
                       onClick={() => handleWorkEnd(user.user_id)}
                     >
