@@ -30,13 +30,6 @@ function Header() {
         <div style={{ padding: "10px", display: "flex" }}>
           <a href="/info" className="btn">
             {" "}
-            Мэдээлэл
-          </a>
-        </div>
-
-        <div style={{ padding: "10px", display: "flex" }}>
-          <a href="/about" className="btn">
-            {" "}
             Бидний тухай
           </a>
         </div>
