@@ -1,7 +1,12 @@
 .footer {
-    background-color: #61abff;
-    color: #fff;
-    text-align: center;
-    font-size: 14px;
+  background-color: #61abff;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 600px) {
+  .footer {
+    font-size: 12px;
   }
-  
+}
