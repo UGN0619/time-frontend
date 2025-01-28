@@ -95,14 +95,14 @@ const HomePage = () => {
           }}
         >
           {error && <div className="errorMessage">{error.message}</div>}
-          <h1>{formatTitle(currentDateTime)}</h1>
+          <h1 className="title">{formatTitle(currentDateTime)}</h1>
           <div className="sub-container">
             <Input
               placeholder="Ажилчины код оруулна уу."
               value={userCode}
               onChange={handleCodeChange}
               size="large"
-              style={{ marginRight: "10px", width: "300px" }}
+              className="input-code"
             />
             <Button
               type="primary"
@@ -116,7 +116,7 @@ const HomePage = () => {
           {user && (
             <div className="sub-container-2">
               <div className="user-info">
-                <h2>Ажилчины нэр: {user.user_name}</h2>
+                <h2 className="user-name">Ажилчины нэр: {user.user_name}</h2>
                 <p>Ажилчины код: {user.user_id}</p>
                 {startedTime ? <p>Ажил эхэлсэн цаг: {startedTime}</p> : ""}
                 {endTime ? <p>Ажил дууссан цаг: {endTime}</p> : ""}

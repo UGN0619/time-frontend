@@ -1,5 +1,5 @@
 import "../Style/Header.css";
-import logo from "../Images/logo.png"; // Specify the image file name with extension
+import logo from "../Images/logo.png";
 
 function Header() {
   return (
@@ -12,16 +12,7 @@ function Header() {
           style={{ marginLeft: "20px" }}
         />
       </a>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          textAlign: "center",
-          marginLeft: "150px",
-          height: "100%",
-          alignItems: "center",
-        }}
-      >
+      <div className="links" style={{}}>
         <div style={{ padding: "10px" }}>
           <a href="/addworker" className="btn">
             {" "}
