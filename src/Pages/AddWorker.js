@@ -3,52 +3,11 @@ import axios from "axios";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { useNavigate } from "react-router-dom";
+import { Modal, Input, Button } from "antd";
 import "../Style/Add.css";
 import profilePicture from "../Images/profile.png";
 
-// Helper functions
-const calculateTotalWorkingMinutes = (workingHours, workingMinutes) => {
-  const hours = parseInt(workingHours) || 0;
-  const minutes = parseInt(workingMinutes) || 0;
-  return hours * 60 + minutes;
-};
-
-// Worker form input field component
-const InputField = ({
-  label,
-  name,
-  value,
-  onChange,
-  type = "text",
-  placeholder,
-}) => {
-  return (
-    <div className="inputField">
-      <label
-        htmlFor={name}
-        style={{ display: "block", fontSize: "14px", marginBottom: "2px" }}
-      >
-        {label}
-      </label>
-      <input
-        type={type}
-        name={name}
-        id={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        style={{
-          width: "95%",
-          padding: "6px 12px",
-          fontSize: "14px",
-          border: "1px solid #ccc",
-          borderRadius: "4px",
-        }}
-      />
-    </div>
-  );
-};
-
+// AddWorkerPage Component
 const AddWorkerPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -65,16 +24,19 @@ const AddWorkerPage = () => {
     user_totalWorkingMinutes: 0,
   });
 
+  const [isModalVisible, setIsModalVisible] = useState(true);
+  const [enteredCode, setEnteredCode] = useState("");
+
+  // Helper functions
+  const calculateTotalWorkingMinutes = (workingHours, workingMinutes) => {
+    const hours = parseInt(workingHours) || 0;
+    const minutes = parseInt(workingMinutes) || 0;
+    return hours * 60 + minutes;
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewWorker((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      //   setProfilePicture(URL.createObjectURL(file));
-    }
   };
 
   const handleSaveWorker = () => {
@@ -88,7 +50,6 @@ const AddWorkerPage = () => {
       .post("http://localhost:3000/api/users", {
         ...newWorker,
         user_totalWorkingMinutes: totalMinutes,
-        // profilePicture,
       })
       .then(() => {
         alert("Амжилттай хадгалагдлаа!");
@@ -98,6 +59,14 @@ const AddWorkerPage = () => {
       .catch((error) => {
         setError(error.response.data.message);
       });
+  };
+
+  const handleCloseModal = () => {
+    if (enteredCode === "2226") {
+      setIsModalVisible(false);
+    } else {
+      alert("Буруу код");
+    }
   };
 
   const resetForm = () => {
@@ -113,7 +82,42 @@ const AddWorkerPage = () => {
       user_workingMinutes: "",
       user_totalWorkingMinutes: 0,
     });
-    // setProfilePicture(null);
+  };
+
+  // Worker form input field component
+  const InputField = ({
+    label,
+    name,
+    value,
+    onChange,
+    type = "text",
+    placeholder,
+  }) => {
+    return (
+      <div className="inputField">
+        <label
+          htmlFor={name}
+          style={{ display: "block", fontSize: "14px", marginBottom: "2px" }}
+        >
+          {label}
+        </label>
+        <input
+          type={type}
+          name={name}
+          id={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          style={{
+            width: "95%",
+            padding: "6px 12px",
+            fontSize: "14px",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+          }}
+        />
+      </div>
+    );
   };
 
   return (
@@ -134,12 +138,7 @@ const AddWorkerPage = () => {
                 alt="Profile"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="inputFile"
-              />
+              <input type="file" accept="image/*" className="inputFile" />
             </div>
           </div>
 
@@ -253,6 +252,30 @@ const AddWorkerPage = () => {
         </div>
       </div>
       <Footer />
+
+      {/* Admin Code Modal */}
+      <Modal
+        title="Admin Access"
+        visible={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+        maskClosable={false}
+        closable={false}
+      >
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Input
+            type="password"
+            maxLength={4}
+            placeholder="Enter 4-digit code"
+            value={enteredCode}
+            onChange={(e) => setEnteredCode(e.target.value)}
+            style={{ marginBottom: "16px" }}
+          />
+          <Button type="primary" onClick={handleCloseModal}>
+            Submit
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };
