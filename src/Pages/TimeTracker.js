@@ -5,13 +5,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const TimeTracker = () => {
+  const LOCAL_IP = window.location.hostname;
   const [workers, setWorkers] = useState([]);
+  const today = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/users")
+      .get(`http://${LOCAL_IP}:3000/api/time/date/${today}`)
       .then((response) => setWorkers(response.data))
       .catch((error) => console.error("Error fetching worker data:", error));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const formatDuration = (minutes) => {
@@ -89,35 +92,23 @@ const TimeTracker = () => {
                     : "N/A"}
                 </td>
                 <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                  {worker.user_totalWorkingMinutes
-                    ? formatDuration(worker.user_totalWorkingMinutes)
-                    : "0m"}
+                  {worker.totalWorkedMinutes}m
                 </td>
                 <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                  {formatDuration(worker.user_totalWorkingMinutes)}
+                  {formatDuration(worker.user_workTime)}
                 </td>
                 <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                  {worker.totalWorkedMinutes
-                    ? () => {
-                        const missingMinutes = Math.max(
-                          0,
-                          worker.user_totalWorkingMinutes -
-                            worker.totalWorkedMinutes
-                        );
-                        formatDuration(missingMinutes);
-                      }
-                    : "0m"}
+                  {formatDuration(
+                    worker.user_workTime - worker.totalWorkedMinutes
+                  )}
                 </td>
                 <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                  {worker.totalWorkedMinutes
-                    ? () => {
-                        const additionalMinutes = Math.max(
-                          0,
-                          worker.totalWorkedMinutes - worker.totalWorkingMinutes
-                        );
-                        formatDuration(additionalMinutes);
-                      }
-                    : "0m"}
+                  {formatDuration(
+                    Math.max(
+                      worker.totalWorkedMinutes - worker.user_workTime,
+                      0
+                    )
+                  )}
                 </td>
               </tr>
             ))}

@@ -7,6 +7,7 @@ import axios from "axios";
 import { Button, Input } from "antd";
 
 const HomePage = () => {
+  const LOCAL_IP = window.location.hostname;
   const [user, setUser] = useState(null);
   const [userCode, setUserCode] = useState("");
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -31,7 +32,7 @@ const HomePage = () => {
   const getUser = async (userId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/time/today/${userId}`
+        `http://${LOCAL_IP}:3000/api/time/today/${userId}`
       );
       setUser(response.data.data);
       setIsStarted(response.data.isStarted);
@@ -45,10 +46,12 @@ const HomePage = () => {
     }
   };
 
-  const handleWorkStart = async (userId) => {
+  const handleWorkStart = async (user) => {
     try {
-      await axios.post("http://localhost:3000/api/time/start", {
-        user_id: userId,
+      await axios.post(`http://${LOCAL_IP}:3000/api/time/start`, {
+        user_id: user.user_id,
+        user_name: user.user_name,
+        user_totalWorkingMinutes: user.user_totalWorkingMinutes,
       });
       alert("Ажил эхэллээ! Өнөөлрийн ажилд тань амжилт хүсье!");
       setIsStarted(true);
@@ -60,9 +63,12 @@ const HomePage = () => {
 
   const handleWorkEnd = async (userId) => {
     try {
-      const response = await axios.post("http://localhost:3000/api/time/end", {
-        user_id: userId,
-      });
+      const response = await axios.post(
+        `http://${LOCAL_IP}:3000/api/time/end`,
+        {
+          user_id: userId,
+        }
+      );
       alert("Ажил дууслаа! Сайхан амраарай!");
       window.location.reload();
       console.log(response);
@@ -126,7 +132,7 @@ const HomePage = () => {
                       style={{
                         display: endTime ? "none" : "block",
                       }}
-                      onClick={() => handleWorkStart(user.user_id)}
+                      onClick={() => handleWorkStart(user)}
                     >
                       Ажил эхэллэх
                     </button>
