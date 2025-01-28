@@ -149,7 +149,12 @@ const AddWorkerPage = () => {
               label="Ажилчны код"
               name="user_id"
               value={newWorker.user_id}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (/^\d{0,4}$/.test(value)) {
+                  handleInputChange(e);
+                }
+              }}
               placeholder="Кодоо оруулна уу"
             />
             <InputField
