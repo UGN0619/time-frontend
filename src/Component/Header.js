@@ -33,6 +33,13 @@ function Header() {
             Бидний тухай
           </a>
         </div>
+
+        <div style={{ padding: "10px", display: "flex" }}>
+          <a href="/task" className="btn">
+            {" "}
+            Таск
+          </a>
+        </div>
       </div>
     </div>
   );
