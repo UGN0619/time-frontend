@@ -3,11 +3,10 @@ import axios from "axios";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { useNavigate } from "react-router-dom";
-import { Modal, Input, Button } from "antd";
+import { Modal, Input, Button, Form } from "antd";
 import "../Style/Add.css";
 import profilePicture from "../Images/profile.png";
 
-// AddWorkerPage Component
 const AddWorkerPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -27,7 +26,6 @@ const AddWorkerPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(true);
   const [enteredCode, setEnteredCode] = useState("");
 
-  // Helper functions
   const calculateTotalWorkingMinutes = (workingHours, workingMinutes) => {
     const hours = parseInt(workingHours) || 0;
     const minutes = parseInt(workingMinutes) || 0;
@@ -45,7 +43,6 @@ const AddWorkerPage = () => {
       newWorker.user_workingMinutes
     );
 
-    // Send the form data to the server
     axios
       .post("http://localhost:3000/api/users", {
         ...newWorker,
@@ -57,7 +54,7 @@ const AddWorkerPage = () => {
         navigate("/");
       })
       .catch((error) => {
-        setError(error.response.data.message);
+        setError(error.response?.data?.message || "Алдаа гарлаа");
       });
   };
 
@@ -84,197 +81,122 @@ const AddWorkerPage = () => {
     });
   };
 
-  // Worker form input field component
-  const InputField = ({
-    label,
-    name,
-    value,
-    onChange,
-    type = "text",
-    placeholder,
-  }) => {
-    return (
-      <div className="inputField">
-        <label
-          htmlFor={name}
-          style={{ display: "block", fontSize: "14px", marginBottom: "2px" }}
-        >
-          {label}
-        </label>
-        <input
-          type={type}
-          name={name}
-          id={name}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          style={{
-            width: "95%",
-            padding: "6px 12px",
-            fontSize: "14px",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-          }}
-        />
-      </div>
-    );
-  };
-
   return (
     <div>
       <Header />
-      <div style={{ padding: "16px", fontFamily: "Arial, sans-serif" }}>
-        <div className="container" style={{ height: "80vh" }}>
-          {/* Error Message */}
-          {error && <div className="errorMessage">{error}</div>}
+      <div
+        className="container"
+        style={{ height: "120vh", marginTop: "20px", marginBottom: "20px" }}
+      >
+        {error && <div className="errorMessage">{error}</div>}
+        <h1 className="header-h1">Ажилчны мэдээллүүд</h1>
 
-          <h1 className="header-h1">Ажилчны мэдээллүүд</h1>
-
-          {/* Profile Picture Section */}
-          <div className="profilePictureContainer">
-            <div className="profilePictureBox">
-              <img
-                src={profilePicture}
-                alt="Profile"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
-              <input type="file" accept="image/*" className="inputFile" />
-            </div>
+        <div className="profilePictureContainer">
+          <div className="profilePictureBox">
+            <img
+              src={profilePicture}
+              alt="Profile"
+              className="profileImage"
+              width={80}
+            />
+            <input type="file" accept="image/*" className="inputFile" />
           </div>
+        </div>
 
-          {/* Form Fields Section */}
-          <div className="inputWrapper">
-            <InputField
-              label="Ажилчны код"
+        <Form layout="vertical" className="formWrapper">
+          <Form.Item label="Ажилчны код">
+            <Input
               name="user_id"
               value={newWorker.user_id}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (/^\d{0,4}$/.test(value)) {
-                  handleInputChange(e);
-                }
-              }}
-              placeholder="Кодоо оруулна уу"
+              onChange={handleInputChange}
+              maxLength={4}
             />
-            <InputField
-              label="Ажилчны нэр"
+          </Form.Item>
+
+          <Form.Item label="Ажилчны нэр">
+            <Input
               name="user_name"
               value={newWorker.user_name}
               onChange={handleInputChange}
-              placeholder="Нэрээ оруулна уу"
             />
-          </div>
+          </Form.Item>
 
-          <InputField
-            label="Ажилчны Gmail хаяг"
-            name="user_email"
-            value={newWorker.user_email}
-            onChange={handleInputChange}
-            placeholder="Gmail хаягаа оруулна уу"
-            type="email"
-          />
-
-          {/* Working Hours and Minutes Fields */}
-          <div className="inputWrapper">
-            <InputField
-              label="Нэг өдөр ажиллах хугацаа (цагаар)"
-              name="user_workingHours"
-              value={newWorker.user_workingHours}
+          <Form.Item label="Ажилчны майл хаяг">
+            <Input
+              name="user_email"
+              value={newWorker.user_email}
               onChange={handleInputChange}
-              placeholder="Цагаар оруулна уу"
-              type="number"
             />
-            <InputField
-              label="Нэг өдөр ажиллах хугацаа (минутаар)"
-              name="user_workingMinutes"
-              value={newWorker.user_workingMinutes}
-              onChange={handleInputChange}
-              placeholder="Минутаар оруулна уу"
-              type="number"
-            />
-          </div>
+          </Form.Item>
 
-          <div className="inputWrapper">
-            <InputField
-              label="Утасны дугаар"
+          <Form.Item label="Ажилчны утасны дугаар">
+            <Input
               name="user_phone"
               value={newWorker.user_phone}
               onChange={handleInputChange}
-              placeholder="Утасны дугаар оруулна уу"
+              type="number"
             />
-            <InputField
-              label="Боловсролын зэрэг"
-              name="user_education"
-              value={newWorker.user_education}
-              onChange={handleInputChange}
-              placeholder="Боловсролын зэргээ оруулна уу"
-            />
-          </div>
+          </Form.Item>
 
-          <div className="inputWrapper">
-            <InputField
-              label="Ажилчны үүрэг"
+          <Form.Item label="Нэг өдөр ажиллах хугацаа (цагаар)">
+            <Input
+              name="user_workingHours"
+              value={newWorker.user_workingHours}
+              onChange={handleInputChange}
+              type="number"
+            />
+          </Form.Item>
+
+          <Form.Item label="Нэг өдөр ажиллах хугацаа (минутаар)">
+            <Input
+              name="user_workingMinutes"
+              value={newWorker.user_workingMinutes}
+              onChange={handleInputChange}
+              type="number"
+            />
+          </Form.Item>
+
+          <Form.Item label="Ажилчны үүрэг">
+            <Input
               name="user_role"
               value={newWorker.user_role}
               onChange={handleInputChange}
-              placeholder="Үүргээ оруулна уу"
+              type="text"
             />
-            <InputField
-              label="Цахим хаяг"
-              name="user_social"
-              value={newWorker.user_social}
-              onChange={handleInputChange}
-              placeholder="Цахим хаягаа оруулна уу"
-            />
-          </div>
+          </Form.Item>
+        </Form>
 
-          {/* Action Buttons */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: "16px",
-            }}
-          >
-            <button
-              onClick={() => navigate("/")}
-              className="actionButton cancelButton"
-            >
-              Буцах
-            </button>
-            <button
-              onClick={handleSaveWorker}
-              className="actionButton saveButton"
-            >
-              Хадгалах
-            </button>
-          </div>
+        <div className="buttonGroup">
+          <Button type="primary" onClick={handleSaveWorker}>
+            Хадгалах
+          </Button>
+          <Button onClick={() => navigate("/")}>Буцах</Button>
         </div>
       </div>
       <Footer />
 
-      {/* Admin Code Modal */}
       <Modal
-        title="Admin Access"
+        title="Админ код оруулна уу"
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
         maskClosable={false}
         closable={false}
       >
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <Input
-            type="password"
-            maxLength={4}
-            placeholder="Enter 4-digit code"
-            value={enteredCode}
-            onChange={(e) => setEnteredCode(e.target.value)}
-            style={{ marginBottom: "16px" }}
-          />
-          <Button type="primary" onClick={handleCloseModal}>
-            Submit
-          </Button>
-        </div>
+        <Input
+          type="password"
+          maxLength={4}
+          placeholder="Админ код"
+          value={enteredCode}
+          onChange={(e) => setEnteredCode(e.target.value)}
+        />
+        <Button
+          type="primary"
+          onClick={handleCloseModal}
+          style={{ marginTop: 10 }}
+        >
+          Үргэлжлүүлэх
+        </Button>
       </Modal>
     </div>
   );

@@ -86,3 +86,10 @@
   background-color: #4caf50;
   color: white;
 }
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
