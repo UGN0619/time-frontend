@@ -89,14 +89,14 @@ const TaskBoard = () => {
     <>
       <Header />
       <div style={{ padding: "20px" }}>
-        <h1>Task Management Board</h1>
+        <h1>Хийх ажлын самбар</h1>
         <Button
           type="primary"
           icon={<PlusOutlined />}
           onClick={() => handleOpenModal()}
           style={{ marginBottom: "20px" }}
         >
-          Add Task
+          Таск нэмэх
         </Button>
         <Row gutter={16}>
           {["To Do", "In Progress", "Done"].map((status) => (
@@ -125,14 +125,14 @@ const TaskBoard = () => {
                             type="link"
                             onClick={() => handleOpenModal(task)}
                           >
-                            Edit
+                            Засах
                           </Button>
                           <Button
                             type="link"
                             onClick={() => handleDelete(task.id)}
                             style={{ color: "red" }}
                           >
-                            Delete
+                            Устгах
                           </Button>
                         </>
                       }
@@ -144,7 +144,7 @@ const TaskBoard = () => {
                     >
                       <p>{task.description}</p>
                       <p>
-                        Scheduled Time:{" "}
+                        Заасан хугацаа:{" "}
                         {task.scheduledTime
                           ? new Date(task.scheduledTime).toLocaleString()
                           : "N/A"}
@@ -156,7 +156,7 @@ const TaskBoard = () => {
                             onClick={() => handleStatusChange(task, "Done")}
                             style={{ marginBottom: "10px" }}
                           >
-                            Mark as Done
+                            Хийсэн болгох
                           </Button>
                         )}
                         {task.status === "To Do" && (
@@ -167,7 +167,7 @@ const TaskBoard = () => {
                             }
                             style={{ marginBottom: "10px" }}
                           >
-                            Mark as In Progress
+                            Хийгдэж байгаа болгох
                           </Button>
                         )}
                         {task.status === "In Progress" && (
@@ -176,7 +176,7 @@ const TaskBoard = () => {
                             onClick={() => handleStatusChange(task, "To Do")}
                             style={{ marginBottom: "10px" }}
                           >
-                            Mark as To Do
+                            Хийх болгох
                           </Button>
                         )}
                       </div>
