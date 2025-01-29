@@ -34,8 +34,8 @@ const TimeTracker = () => {
 
   const handleDateChange = (dates) => {
     if (!dates || dates.length !== 2) return;
-    const startDate = dates[0]?.toISOString().split("T")[0];
-    const endDate = dates[1]?.toISOString().split("T")[0];
+    const startDate = dates[0]?.format("YYYY-MM-DD");
+    const endDate = dates[1]?.format("YYYY-MM-DD");
     setSelectedDates([startDate, endDate]);
     fetchWorkers(startDate, endDate);
   };
@@ -177,6 +177,9 @@ const TimeTracker = () => {
               <th style={{ padding: "10px", border: "1px solid #ddd" }}>
                 Илүү цаг
               </th>
+              <th style={{ padding: "10px", border: "1px solid #ddd" }}>
+                Ажилсан өдөр
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -225,6 +228,9 @@ const TimeTracker = () => {
                       0
                     )
                   )}
+                </td>
+                <td style={{ padding: "10px", border: "1px solid #ddd" }}>
+                  {new Date(worker.startTime).toLocaleDateString()}
                 </td>
               </tr>
             ))}
