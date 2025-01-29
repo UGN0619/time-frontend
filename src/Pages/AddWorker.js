@@ -45,7 +45,7 @@ const AddWorkerPage = () => {
     );
 
     axios
-      .post(`http://${LOCAL_IP}/api/users`, {
+      .post(`http://${LOCAL_IP}:3000/api/users`, {
         ...newWorker,
         user_totalWorkingMinutes: totalMinutes,
       })
