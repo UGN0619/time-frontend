@@ -8,6 +8,7 @@ import "../Style/Add.css";
 import profilePicture from "../Images/profile.png";
 
 const AddWorkerPage = () => {
+  const LOCAL_IP = window.location.hostname;
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [newWorker, setNewWorker] = useState({
@@ -44,7 +45,7 @@ const AddWorkerPage = () => {
     );
 
     axios
-      .post("http://localhost:3000/api/users", {
+      .post(`http://${LOCAL_IP}/api/users`, {
         ...newWorker,
         user_totalWorkingMinutes: totalMinutes,
       })
