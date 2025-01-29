@@ -54,7 +54,10 @@ const AddWorkerPage = () => {
         navigate("/");
       })
       .catch((error) => {
-        setError(error || "Алдаа гарлаа");
+        // Check if the error response has a message and display it
+        const errorMessage =
+          error?.response?.data?.message || error.message || "Алдаа гарлаа";
+        setError(errorMessage);
       });
   };
 
