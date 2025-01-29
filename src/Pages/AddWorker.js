@@ -54,7 +54,7 @@ const AddWorkerPage = () => {
         navigate("/");
       })
       .catch((error) => {
-        setError(error.response?.data?.message || "Алдаа гарлаа");
+        setError(error || "Алдаа гарлаа");
       });
   };
 
