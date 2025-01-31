@@ -21,7 +21,7 @@ const TimeTracker = () => {
   ]);
 
   useEffect(() => {
-    fetchWorkers(today, today);
+    fetchWorkers(today, formattedTomorrow);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
