@@ -214,7 +214,7 @@ const TimeTracker = () => {
                     : "Дуусгаагүй"}
                 </td>
                 <td style={{ padding: "10px", border: "1px solid #ddd" }}>
-                  {worker.totalWorkedMinutes}m
+                  {formatDuration(worker.totalWorkedMinutes)}
                 </td>
                 <td style={{ padding: "10px", border: "1px solid #ddd" }}>
                   {formatDuration(worker.user_workTime)}
