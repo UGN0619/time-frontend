@@ -5,6 +5,7 @@ import TimeTracker from "./Pages/TimeTracker";
 import TaskBoard from "./Pages/Task";
 import Info from "./Pages/Info";
 import AddWorker from "./Pages/AddWorker";
+import Attendance from "./Pages/Attedance";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/task" element={<TaskBoard />} />
         <Route path="/info" element={<Info />} />
         <Route path="/addworker" element={<AddWorker />} />
+        <Route path="/attendance" element={<Attendance />} />
       </Routes>
     </Router>
   );

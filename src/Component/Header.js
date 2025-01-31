@@ -40,6 +40,13 @@ function Header() {
             Таск
           </a>
         </div>
+
+        <div style={{ padding: "10px", display: "flex" }}>
+          <a href="/attendance" className="btn">
+            {" "}
+            Ирц бүртгэл
+          </a>
+        </div>
       </div>
     </div>
   );
