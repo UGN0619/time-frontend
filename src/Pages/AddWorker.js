@@ -8,7 +8,7 @@ import "../Style/Add.css";
 import profilePicture from "../Images/profile.png";
 
 const AddWorkerPage = () => {
-  const LOCAL_IP = window.location.hostname;
+  const LOCAL_IP = "https://time-backend.onrender.com";
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [newWorker, setNewWorker] = useState({
@@ -45,7 +45,7 @@ const AddWorkerPage = () => {
     );
 
     axios
-      .post(`http://${LOCAL_IP}:3000/api/users`, {
+      .post(`${LOCAL_IP}/api/users`, {
         ...newWorker,
         user_totalWorkingMinutes: totalMinutes,
       })
