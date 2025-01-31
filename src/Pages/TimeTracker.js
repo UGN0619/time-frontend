@@ -88,7 +88,7 @@ const TimeTracker = () => {
               minute: "2-digit",
             })
           : "Дуусгаагүй",
-        `${worker.totalWorkedMinutes}m`,
+        formatDuration(worker.totalWorkedMinutes),
         formatDuration(worker.user_workTime),
         formatDuration(
           Math.max(worker.user_workTime - worker.totalWorkedMinutes, 0)
