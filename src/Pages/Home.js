@@ -26,7 +26,7 @@ const HomePage = () => {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    return `${year} оны ${month} сарын ${day} ны цаг бүртгэл xaxa`;
+    return `${year} оны ${month} сарын ${day} ны цаг бүртгэл`;
   };
 
   const getUser = async (userId) => {
@@ -98,7 +98,7 @@ const HomePage = () => {
           <h1 className="title">{formatTitle(currentDateTime)}</h1>
           <div className="sub-container">
             <Input
-              placeholder="Ажилчины кодss оруулна уу."
+              placeholder="Ажилчины код оруулна уу."
               value={userCode}
               onChange={handleCodeChange}
               size="large"
