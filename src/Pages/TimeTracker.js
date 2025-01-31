@@ -7,7 +7,7 @@ import { DatePicker, Button } from "antd";
 const { RangePicker } = DatePicker;
 
 const TimeTracker = () => {
-  const LOCAL_IP = window.location.hostname;
+  const LOCAL_IP = "https://time-backend.onrender.com";
   const today = new Date().toISOString().split("T")[0];
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -28,7 +28,7 @@ const TimeTracker = () => {
   const fetchWorkers = async (startDate, endDate) => {
     try {
       const response = await axios.get(
-        `http://${LOCAL_IP}:3000/api/time/date/${startDate}/${endDate}`
+        `${LOCAL_IP}/api/time/date/${startDate}/${endDate}`
       );
       console.log("API Response:", response.data); // Debugging line
       setWorkers(Array.isArray(response.data) ? response.data : []); // Ensure it's always an array
@@ -50,7 +50,7 @@ const TimeTracker = () => {
     const [startDate, endDate] = selectedDates;
     try {
       const res = await axios.get(
-        `http://${LOCAL_IP}:3000/api/time/date/${startDate}/${endDate}`
+        `${LOCAL_IP}/api/time/date/${startDate}/${endDate}`
       );
 
       const data = res.data;

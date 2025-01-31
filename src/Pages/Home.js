@@ -7,7 +7,7 @@ import axios from "axios";
 import { Button, Input } from "antd";
 
 const HomePage = () => {
-  const LOCAL_IP = window.location.hostname;
+  const LOCAL_IP = "https://time-backend.onrender.com";
   const [user, setUser] = useState(null);
   const [userCode, setUserCode] = useState("");
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -31,9 +31,7 @@ const HomePage = () => {
 
   const getUser = async (userId) => {
     try {
-      const response = await axios.get(
-        `http://${LOCAL_IP}:3000/api/time/today/${userId}`
-      );
+      const response = await axios.get(`${LOCAL_IP}/api/time/today/${userId}`);
       setUser(response.data.data);
       setIsStarted(response.data.isStarted);
       setStartedTime(response.data.startedTime);
@@ -48,7 +46,7 @@ const HomePage = () => {
 
   const handleWorkStart = async (user) => {
     try {
-      await axios.post(`http://${LOCAL_IP}:3000/api/time/start`, {
+      await axios.post(`${LOCAL_IP}/api/time/start`, {
         user_id: user.user_id,
         user_name: user.user_name,
         user_totalWorkingMinutes: user.user_totalWorkingMinutes,
@@ -63,12 +61,9 @@ const HomePage = () => {
 
   const handleWorkEnd = async (userId) => {
     try {
-      const response = await axios.post(
-        `http://${LOCAL_IP}:3000/api/time/end`,
-        {
-          user_id: userId,
-        }
-      );
+      const response = await axios.post(`${LOCAL_IP}/api/time/end`, {
+        user_id: userId,
+      });
       alert("Ажил дууслаа! Сайхан амраарай!");
       window.location.reload();
       console.log(response);
@@ -119,8 +114,28 @@ const HomePage = () => {
               <div className="user-info">
                 <h2 className="user-name">Ажилчины нэр: {user.user_name}</h2>
                 <p>Ажилчины код: {user.user_id}</p>
-                {startedTime ? <p>Ажил эхэлсэн цаг: {startedTime}</p> : ""}
-                {endTime ? <p>Ажил дууссан цаг: {endTime}</p> : ""}
+                {startedTime ? (
+                  <p>
+                    Ажил эхэлсэн цаг:{" "}
+                    {new Date(startedTime).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
+                ) : (
+                  ""
+                )}
+                {endTime ? (
+                  <p>
+                    Ажил дууссан цаг:{" "}
+                    {new Date(endTime).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
+                ) : (
+                  ""
+                )}
                 {totalWorkedMinutes ? (
                   <p>Нийт ажилласан цаг: {totalWorkedMinutes} минут </p>
                 ) : (

@@ -7,11 +7,11 @@ import { Card } from "antd";
 const { Meta } = Card;
 
 const InfoPage = () => {
-  const LOCAL_IP = window.location.hostname;
+  const LOCAL_IP = "https://time-backend.onrender.com";
   const [users, setUsers] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://${LOCAL_IP}:3000/api/users`)
+      .get(`${LOCAL_IP}/api/users`)
       .then((response) => setUsers(response.data))
       .catch((error) => console.error("Error fetching worker data:", error));
     // eslint-disable-next-line react-hooks/exhaustive-deps
