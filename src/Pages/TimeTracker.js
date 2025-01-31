@@ -81,13 +81,13 @@ const TimeTracker = () => {
               hour: "2-digit",
               minute: "2-digit",
             })
-          : "N/A",
+          : "Эхлээгүй",
         worker.endTime
           ? new Date(worker.endTime).toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
             })
-          : "N/A",
+          : "Дуусгаагүй",
         `${worker.totalWorkedMinutes}m`,
         formatDuration(worker.user_workTime),
         formatDuration(
