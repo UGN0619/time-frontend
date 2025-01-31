@@ -26,7 +26,7 @@ const HomePage = () => {
     const year = date.getFullYear();
     const month = date.getMonth() + 1; // Months are 0-based
     const day = date.getDate();
-    return `${year} оны ${month} сарын ${day} ны цаг бүртгэл xaxa`;
+    return `${year} оны ${month} сарын ${day} ны цаг бүртгэл`;
   };
 
   const getUser = async (userId) => {
