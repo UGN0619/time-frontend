@@ -24,7 +24,7 @@ const HomePage = () => {
 
   const formatTitle = (date) => {
     const year = date.getFullYear();
-    const month = date.getMonth() + 1; // Months are 0-based
+    const month = date.getMonth() + 1;
     const day = date.getDate();
     return `${year} оны ${month} сарын ${day} ны цаг бүртгэл xaxa`;
   };
@@ -98,7 +98,7 @@ const HomePage = () => {
           <h1 className="title">{formatTitle(currentDateTime)}</h1>
           <div className="sub-container">
             <Input
-              placeholder="Ажилчины код оруулна уу."
+              placeholder="Ажилчины кодss оруулна уу."
               value={userCode}
               onChange={handleCodeChange}
               size="large"
