@@ -9,10 +9,16 @@ const { RangePicker } = DatePicker;
 const TimeTracker = () => {
   const LOCAL_IP = window.location.hostname;
   const today = new Date().toISOString().split("T")[0];
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const formattedTomorrow = tomorrow.toISOString().split("T")[0];
 
   const [workers, setWorkers] = useState([]);
   const [error, setError] = useState("");
-  const [selectedDates, setSelectedDates] = useState([today, today]);
+  const [selectedDates, setSelectedDates] = useState([
+    today,
+    formattedTomorrow,
+  ]);
 
   useEffect(() => {
     fetchWorkers(today, today);
