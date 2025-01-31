@@ -6,78 +6,63 @@ import "../Style/App.css";
 import axios from "axios";
 import { Button, Input } from "antd";
 
-const HomePage = () => {
+const StudentAttendancePage = () => {
   const LOCAL_IP = window.location.hostname;
-  const [user, setUser] = useState(null);
-  const [userCode, setUserCode] = useState("");
-  const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [studentId, setStudentId] = useState(""); // Added state for studentId
+  const [student, setStudent] = useState(null);
   const [error, setError] = useState(null);
-  const [isStarted, setIsStarted] = useState(false);
-  const [startedTime, setStartedTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
-  const [totalWorkedMinutes, setTotalWorkedMinutes] = useState(null);
+  const [teachers, setTeachers] = useState([]); // Ensure teachers is initialized as an empty array
+  const [selectedTeacherId, setSelectedTeacherId] = useState(null); // State for selected teacher
 
   useEffect(() => {
-    const interval = setInterval(() => setCurrentDateTime(new Date()), 1000);
-    return () => clearInterval(interval);
+    getTeachers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const formatTitle = (date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1; // Months are 0-based
-    const day = date.getDate();
-    return `${year} оны ${month} сарын ${day} ны цаг бүртгэл`;
-  };
-
-  const getUser = async (userId) => {
+  const getStudent = async (studentId) => {
     try {
       const response = await axios.get(
-        `http://${LOCAL_IP}:3000/api/time/today/${userId}`
+        `http://${LOCAL_IP}:3000/api/students/${studentId}`
       );
-      setUser(response.data.data);
-      setIsStarted(response.data.isStarted);
-      setStartedTime(response.data.startedTime);
-      setEndTime(response.data.endTime);
-      setTotalWorkedMinutes(response.data.totalWorkedMinutes);
+      setStudent(response.data);
+    } catch (error) {
+      setStudent(null);
+      setError(error);
+    }
+  };
+
+  const getTeachers = async () => {
+    try {
+      const response = await axios.get(`http://${LOCAL_IP}:3000/api/users/`);
+
+      console.log(response.data);
+      setTeachers(response.data);
       setError(null);
     } catch (error) {
-      setUser(null);
       setError(error);
     }
   };
 
-  const handleWorkStart = async (user) => {
+  const attendance = async (teacherId, studentId) => {
     try {
-      await axios.post(`http://${LOCAL_IP}:3000/api/time/start`, {
-        user_id: user.user_id,
-        user_name: user.user_name,
-        user_totalWorkingMinutes: user.user_totalWorkingMinutes,
+      await axios.post(`http://${LOCAL_IP}:3000/api/attendance`, {
+        user_id: teacherId,
+        student_id: studentId,
       });
-      alert("Ажил эхэллээ! Өнөөдрийн ажилд тань амжилт хүсье!");
-      setIsStarted(true);
+      alert("Амжилттай бүртгэгдлээ!");
       window.location.reload();
     } catch (error) {
       setError(error);
     }
   };
 
-  const handleWorkEnd = async (userId) => {
-    try {
-      const response = await axios.post(
-        `http://${LOCAL_IP}:3000/api/time/end`,
-        {
-          user_id: userId,
-        }
-      );
-      alert("Ажил дууслаа! Сайхан амраарай!");
-      window.location.reload();
-      console.log(response);
-    } catch (error) {
-      setError(error);
-    }
+  const handleCodeChange = (e) => {
+    setStudentId(e.target.value); // Handle studentId input change
   };
 
-  const handleCodeChange = (e) => setUserCode(e.target.value);
+  const handleTeacherChange = (e) => {
+    setSelectedTeacherId(e.target.value); // Handle teacher selection change
+  };
 
   return (
     <div>
@@ -95,11 +80,11 @@ const HomePage = () => {
           }}
         >
           {error && <div className="errorMessage">{error.message}</div>}
-          <h1 className="title">{formatTitle(currentDateTime)}</h1>
+          <h1 className="title">Ирц бүртгэл</h1>
           <div className="sub-container">
             <Input
-              placeholder="Ажилчины код оруулна уу."
-              value={userCode}
+              placeholder="Сурагчийн код оруулна уу."
+              value={studentId}
               onChange={handleCodeChange}
               size="large"
               className="input-code"
@@ -108,48 +93,34 @@ const HomePage = () => {
               style={{ marginLeft: "10px" }}
               type="primary"
               size="large"
-              onClick={() => getUser(userCode)}
+              onClick={() => getStudent(studentId)}
             >
               ХАЙХ
             </Button>
           </div>
 
-          {user && (
+          {student && (
             <div className="sub-container-2">
               <div className="user-info">
-                <h2 className="user-name">Ажилчины нэр: {user.user_name}</h2>
-                <p>Ажилчины код: {user.user_id}</p>
-                {startedTime ? <p>Ажил эхэлсэн цаг: {startedTime}</p> : ""}
-                {endTime ? <p>Ажил дууссан цаг: {endTime}</p> : ""}
-                {totalWorkedMinutes ? (
-                  <p>Нийт ажилласан цаг: {totalWorkedMinutes} минут </p>
-                ) : (
-                  ""
-                )}
-                <div>
-                  {!isStarted ? (
-                    <button
-                      className="btn1"
-                      style={{
-                        display: endTime ? "none" : "block",
-                      }}
-                      onClick={() => handleWorkStart(user)}
-                    >
-                      Ажил эхэллэх
-                    </button>
-                  ) : (
-                    <button
-                      className="btn1"
-                      style={{
-                        display: endTime ? "none" : "block",
-                        backgroundColor: "red",
-                      }}
-                      onClick={() => handleWorkEnd(user.user_id)}
-                    >
-                      Ажил дуусгах
-                    </button>
-                  )}
-                </div>
+                <h2 className="user-name">Сайн уу? {student.name}</h2>
+                Бүртгүүлэх багш:
+                <select onChange={handleTeacherChange}>
+                  <option value="">Сонгох</option>
+                  {teachers.map((teacher) => (
+                    <option key={teacher.id} value={teacher.id}>
+                      {teacher.user_name}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  className="btn1"
+                  style={{
+                    display: selectedTeacherId ? "block" : "none", // Show button if teacher selected
+                  }}
+                  onClick={() => attendance(selectedTeacherId, studentId)}
+                >
+                  Бүртгүүлэх
+                </button>
               </div>
             </div>
           )}
@@ -160,4 +131,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default StudentAttendancePage;
