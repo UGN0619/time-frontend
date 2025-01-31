@@ -3,152 +3,161 @@ import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { DatePicker, Button, Input } from "antd";
 
-// Mock Data for Teachers and Students
-const teachers = [
-  {
-    name: "Багш 1",
-    students: [
-      { name: "Сурагч 1", attendance: "X" },
-      { name: "Сурагч 2", attendance: "X" },
-    ],
-  },
-  {
-    name: "Багш 2",
-    students: [
-      { name: "Сурагч 3", attendance: "X" },
-      { name: "Сурагч 4", attendance: "X" },
-    ],
-  },
-  {
-    name: "Багш 3",
-    students: [
-      { name: "Сурагч 5", attendance: "X" },
-      { name: "Сурагч 6", attendance: "X" },
-    ],
-  },
+// Mock Data for Teachers
+const users = [
+  { user_id: "0001", user_name: "Uugantogtokh" },
+  { user_id: "0002", user_name: "Bayarmaa" },
+  { user_id: "0003", user_name: "Asami" },
 ];
 
-// Utility function to generate dates for the selected month
+// Mock Data for Students
+const students = [
+  { student_id: "0001", student_name: "Munkhorgil", role: "JA2" },
+  { student_id: "0002", student_name: "Tselmuun", role: "JA3" },
+  { student_id: "0003", student_name: "Tengis", role: "JPLTN5" },
+];
+
+// Mock Data for Attendance
+const attendance = [
+  { user_id: "0001", student_id: "0001", date: "2025-01-31" },
+  { user_id: "0001", student_id: "0002", date: "2025-01-31" },
+  { user_id: "0002", student_id: "0001", date: "2025-01-31" },
+  { user_id: "0003", student_id: "0003", date: "2025-01-31" },
+  { user_id: "0003", student_id: "0001", date: "2025-01-10" },
+];
+
 const generateDatesForMonth = (year, month) => {
   const dates = [];
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-
   for (let day = 1; day <= daysInMonth; day++) {
-    dates.push(`${month + 1}/${day}`);
+    dates.push(
+      `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(
+        2,
+        "0"
+      )}`
+    );
   }
-
   return dates;
 };
 
-// AttendanceTable component to display the table structure
 const AttendanceTable = ({ teacher, dates }) => {
+  const teacherStudents = students.filter((student) =>
+    attendance.some(
+      (record) =>
+        record.user_id === teacher.user_id &&
+        record.student_id === student.student_id
+    )
+  );
+
   return (
-    <div style={{ overflowX: "auto" }}>
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          marginTop: "20px",
-          tableLayout: "fixed", // Ensure columns are evenly distributed
-          fontSize: "12px", // Reduced font size for better fit
-        }}
-      >
-        <thead>
-          <tr style={{ backgroundColor: "#61abff", color: "white" }}>
-            <th
-              style={{
-                padding: "6px", // Reduced padding
-                border: "1px solid #ddd",
-                width: "150px", // Set a fixed width for student names
-                textAlign: "center",
-                fontSize: "14px", // Set font size for header
-              }}
-            >
-              Сурагчийн нэр
-            </th>
-            {dates.map((date, index) => (
+    <div
+      style={{
+        backgroundColor: "#f0f0f0",
+        padding: "20px",
+        marginBottom: "20px",
+      }}
+    >
+      <div style={{ overflowX: "auto", marginBottom: "20px" }}>
+        <h2 style={{ marginBottom: "10px", color: "#61abff" }}>
+          {teacher.user_name} багшийн ирц бүртгэл
+        </h2>
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            fontSize: "12px",
+            tableLayout: "fixed",
+          }}
+        >
+          <thead>
+            <tr style={{ backgroundColor: "#61abff", color: "white" }}>
               <th
-                key={index}
                 style={{
-                  padding: "6px", // Reduced padding
+                  padding: "6px",
                   border: "1px solid #ddd",
+                  width: "150px",
                   textAlign: "center",
-                  width: "60px", // Adjusted width to fit more data
-                  fontSize: "14px", // Set font size for header
                 }}
               >
-                {date}
+                Сурагчийн нэр
               </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {teacher.students.map((student, studentIndex) => (
-            <tr key={studentIndex} style={{ textAlign: "center" }}>
-              <td
-                style={{
-                  padding: "6px", // Reduced padding
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                  fontSize: "12px", // Reduced font size for students' data
-                }}
-              >
-                {student.name}
-              </td>
-              {dates.map((_, dateIndex) => (
-                <td
-                  key={dateIndex}
+              {dates.map((date, index) => (
+                <th
+                  key={index}
                   style={{
-                    padding: "6px", // Reduced padding
+                    padding: "6px",
                     border: "1px solid #ddd",
                     textAlign: "center",
-                    fontSize: "12px", // Reduced font size for students' data
+                    width: "60px",
                   }}
                 >
-                  {student.attendance}
-                </td>
+                  {date.split("-").slice(1).join("/")}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {teacherStudents.map((student) => (
+              <tr key={student.student_id} style={{ textAlign: "center" }}>
+                <td
+                  style={{
+                    padding: "6px",
+                    border: "1px solid #ddd",
+                    textAlign: "center",
+                  }}
+                >
+                  <strong>{student.student_name}</strong>
+                  <p>{student.role}</p>
+                </td>
+                {dates.map((date, index) => {
+                  const isPresent = attendance.some(
+                    (record) =>
+                      record.user_id === teacher.user_id &&
+                      record.student_id === student.student_id &&
+                      record.date === date
+                  );
+                  return (
+                    <td
+                      key={index}
+                      style={{
+                        padding: "6px",
+                        border: "1px solid #ddd",
+                        textAlign: "center",
+                      }}
+                    >
+                      {isPresent ? (
+                        <span style={{ color: "green" }}>🔵</span>
+                      ) : (
+                        <span style={{ color: "red" }}>✖</span>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <Button type="primary">CSV татах</Button>
     </div>
   );
 };
 
-// TeacherTable component that iterates over each teacher
-const TeacherTable = ({ teacher, dates }) => {
-  return (
-    <div key={teacher.name}>
-      <h1 style={{ textAlign: "left", color: "#61abff", fontSize: "20px" }}>
-        {teacher.name} багшийн ирц бүртгэл
-      </h1>
-      <AttendanceTable teacher={teacher} dates={dates} />
-    </div>
-  );
-};
-
-// Main Attendance component
 const Attendance = () => {
-  const [searchText, setSearchText] = useState(""); // State for search input
-  const [selectedMonth, setSelectedMonth] = useState(new Date()); // State for selected month
+  const [searchText, setSearchText] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState(new Date());
 
-  // Handle month selection
   const handleMonthChange = (date) => {
-    if (date) {
-      setSelectedMonth(date);
-    }
+    if (date) setSelectedMonth(date.toDate());
   };
 
-  // Generate dates for the selected month
   const dates = generateDatesForMonth(
     selectedMonth.getFullYear(),
     selectedMonth.getMonth()
   );
-
-  // Filter teachers based on the search input
-  const filteredTeachers = teachers.filter((teacher) =>
-    teacher.name.toLowerCase().includes(searchText.toLowerCase())
+  const filteredTeachers = users.filter((teacher) =>
+    teacher.user_name.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
@@ -156,26 +165,29 @@ const Attendance = () => {
       <Header />
       <div style={{ fontFamily: "Arial, sans-serif", margin: "20px" }}>
         <h1 style={{ textAlign: "center", color: "#61abff" }}>Ирц бүртгэл</h1>
-
-        <div style={{ display: "flex", justifyContent: "right", gap: "20px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "right",
+            gap: "20px",
+            height: "40px",
+            marginBottom: "20px",
+          }}
+        >
           <Input
             placeholder="Багшийн нэрээр хайх"
             value={searchText}
-            onChange={(e) => setSearchText(e.target.value)} // Update searchText on input change
-            style={{ width: "300px", height: "40px" }}
+            onChange={(e) => setSearchText(e.target.value)}
+            style={{ width: "300px" }}
           />
-          Он сар сонгох:
-          <DatePicker
-            picker="month"
-            onChange={handleMonthChange}
-            style={{ marginBottom: "20px" }}
-          />
-          <Button type="primary">CSV татах</Button>
+          <DatePicker picker="month" onChange={handleMonthChange} />
         </div>
-
-        {/* Render filtered teachers */}
-        {filteredTeachers.map((teacher, index) => (
-          <TeacherTable key={index} teacher={teacher} dates={dates} />
+        {filteredTeachers.map((teacher) => (
+          <AttendanceTable
+            key={teacher.user_id}
+            teacher={teacher}
+            dates={dates}
+          />
         ))}
       </div>
       <Footer />
