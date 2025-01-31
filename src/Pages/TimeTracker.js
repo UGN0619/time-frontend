@@ -211,7 +211,7 @@ const TimeTracker = () => {
                         hour: "2-digit",
                         minute: "2-digit",
                       })
-                    : "N/A"}
+                    : "Дуусгаагүй"}
                 </td>
                 <td style={{ padding: "10px", border: "1px solid #ddd" }}>
                   {worker.totalWorkedMinutes}m
