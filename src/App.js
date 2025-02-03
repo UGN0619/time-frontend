@@ -19,7 +19,10 @@ function App() {
         <Route path="/info" element={<Info />} />
         <Route path="/addworker" element={<AddWorker />} />
         <Route path="/attendance" element={<Attendance />} />
-        <Route path="/student-attendance" element={<StudentAttendancePage />} />
+        <Route
+          path="/student-attendance/:user_id"
+          element={<StudentAttendancePage />}
+        />
         <Route path="/add-student" element={<AddStudentPage />} />
       </Routes>
     </Router>
