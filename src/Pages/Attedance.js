@@ -3,7 +3,7 @@ import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { DatePicker, Input } from "antd";
 import axios from "axios";
-import AttendanceTable from "../Component/AttendanceTable"; // Import the AttendanceTable component
+import AttendanceTable from "../Component/AttendanceTable";
 
 const LOCAL_IP = window.location.hostname;
 
@@ -23,35 +23,28 @@ const Attendance = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [teachers, setTeachers] = useState([]);
   const [attendance, setAttendance] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTeachers = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await axios.get(`http://${LOCAL_IP}:3000/api/users`);
-        setTeachers(data);
+        const [teachersRes, studentsRes] = await Promise.all([
+          axios.get(`http://${LOCAL_IP}:3000/api/users`),
+          axios.get(`http://${LOCAL_IP}:3000/api/students`),
+        ]);
+        setTeachers(teachersRes.data);
+        setStudents(studentsRes.data);
       } catch (error) {
-        console.error("Error fetching teachers:", error);
+        console.error("Error fetching data:", error);
       }
     };
-    const fetchStudents = async () => {
-      try {
-        const { data } = await axios.get(
-          `http://${LOCAL_IP}:3000/api/students`
-        );
-        setStudents(data);
-      } catch (error) {
-        console.error("Error fetching students:", error);
-      }
-    };
-    fetchStudents();
-    fetchTeachers();
+    fetchData();
   }, []);
 
   useEffect(() => {
     const fetchAttendance = async () => {
-      setLoading(true); // Set loading to true before fetching
+      setLoading(true);
       try {
         const month = `${selectedMonth.getFullYear()}-${String(
           selectedMonth.getMonth() + 1
@@ -63,7 +56,7 @@ const Attendance = () => {
       } catch (error) {
         console.error("Error fetching attendance:", error);
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false);
       }
     };
     fetchAttendance();
@@ -77,14 +70,11 @@ const Attendance = () => {
     selectedMonth.getFullYear(),
     selectedMonth.getMonth()
   );
-
   const filteredTeachers = teachers.filter((teacher) =>
     teacher.user_name.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  if (loading) {
-    return <p>Loading...</p>; // Or use a spinner here
-  }
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div>
@@ -107,15 +97,25 @@ const Attendance = () => {
           />
           <DatePicker picker="month" onChange={handleMonthChange} />
         </div>
-        {filteredTeachers.map((teacher) => (
-          <AttendanceTable
-            key={teacher.user_id}
-            teacher={teacher}
-            dates={dates}
-            students={students}
-            attendance={attendance}
-          />
-        ))}
+        {filteredTeachers.map((teacher) => {
+          const teacherAttendance = attendance.filter(
+            (record) => record.user_id === teacher.user_name
+          );
+          if (teacherAttendance.length === 0) return null; // Exclude teacher with no attendance
+          return (
+            <AttendanceTable
+              key={teacher.user_id}
+              teacher={teacher}
+              dates={dates}
+              students={students.filter((student) =>
+                teacherAttendance.some(
+                  (record) => record.student_id === student.student_id
+                )
+              )} // Filter out students without attendance for this teacher
+              attendance={teacherAttendance}
+            />
+          );
+        })}
       </div>
       <Footer />
     </div>

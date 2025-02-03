@@ -2,26 +2,20 @@ import React from "react";
 import { Button } from "antd";
 
 const AttendanceTable = ({ teacher, dates, attendance, students }) => {
-  if (!attendance || attendance.length === 0) {
-    return (
-      <div
-        style={{
-          backgroundColor: "#f0f0f0",
-          padding: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <h2 style={{ marginBottom: "10px", color: "#61abff" }}>
-          {teacher.user_name} багшийн ирц бүртгэл
-        </h2>
-        <p>No attendance records found for this teacher.</p>
-      </div>
-    );
-  }
-
   const teacherAttendance = attendance.filter(
-    (record) => record.teacher_id === teacher.teacher_id
+    (record) => record.user_id === teacher.user_id
   );
+
+  const filteredStudents = students.filter((student) =>
+    teacherAttendance.some((record) => record.student_id === student.student_id)
+  );
+
+  console.log(teacherAttendance);
+  console.log(filteredStudents);
+
+  if (teacherAttendance.length === 0 || filteredStudents.length === 0) {
+    return null;
+  }
 
   return (
     <div
@@ -70,10 +64,11 @@ const AttendanceTable = ({ teacher, dates, attendance, students }) => {
             </tr>
           </thead>
           <tbody>
-            {students.map((student) => (
+            {filteredStudents.map((student) => (
               <tr key={student.student_id} style={{ textAlign: "center" }}>
                 <td style={{ padding: "6px", border: "1px solid #ddd" }}>
                   <strong>{student.name}</strong>
+                  <p>{student.role}</p>
                 </td>
                 {dates.map((date) => (
                   <td
