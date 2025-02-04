@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../index.css";
-import Header from "../Component/Header";
 import "../Style/App.css";
 import axios from "axios";
 import { Button, Input } from "antd";
@@ -70,7 +69,6 @@ const StudentAttendancePage = () => {
 
   return (
     <div>
-      <Header />
       <div className="main-container">
         <div
           className="container"

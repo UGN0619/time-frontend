@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useMatch } from "react-router-dom";
 import { Layout } from "antd";
 import { MessageProvider } from "./Provider/MessageProvider"; // Import MessageProvider and useMessage
 import AppHeader from "./Component/Header";
@@ -21,6 +21,9 @@ function App() {
   const initialSelectedMenu = storedMenu || "1";
   const [selectedMenu, setSelectedMenu] = useState(initialSelectedMenu);
   const location = useLocation();
+
+  // Use useMatch to check if the current path matches "/student-attendance/:id"
+  const isStudentAttendancePage = useMatch("/student-attendance/:id");
 
   useEffect(() => {
     let newSelectedMenu;
@@ -52,7 +55,7 @@ function App() {
     localStorage.setItem("selectedMenu", newSelectedMenu);
   }, [location]);
 
-  const isHomePage = location.pathname === "/";
+  const isHomePage = location.pathname === "/" || isStudentAttendancePage;
 
   return (
     <Layout>
