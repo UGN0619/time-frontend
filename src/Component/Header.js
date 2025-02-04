@@ -2,6 +2,7 @@ import React from "react";
 import { Menu, Layout } from "antd";
 import logo from "../Images/logo.png";
 import { Link } from "react-router-dom";
+import "../Style/Header.css";
 
 const { Header } = Layout;
 

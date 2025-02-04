@@ -149,7 +149,7 @@ label {
 
 @media (max-width: 768px) {
   .container {
-    width: 90%;
+    width: 100%;
     height: calc(100vh - 246px);
   }
   .select {
@@ -162,7 +162,7 @@ label {
     width: 100%;
   }
   .sub-container-2 {
-    width: 80%;
+    width: 100%;
   }
   .user-name {
     font-size: 15px;

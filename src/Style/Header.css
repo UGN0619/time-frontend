@@ -1,25 +1,5 @@
-.header {
-  background-color: #61abff;
-  height: 80px;
-  border-bottom: 1px solid grey;
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-}
-.links {
-  justify-content: "space-around";
-  display: flex;
-  text-align: "center";
-  margin-left: "150px";
-  height: "100%";
-  align-items: "center";
-}
 @media (max-width: 768px) {
-  .header {
-    height: 80px;
-    width: 100%;
-  }
-  .links {
+  .css-dev-only-do-not-override-1htoz2s.ant-menu {
     display: none;
   }
 }

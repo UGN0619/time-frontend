@@ -3,10 +3,12 @@ import "../index.css";
 import "../Style/App.css";
 import axios from "axios";
 import { Input, Button } from "antd";
+import { useMessage } from "../Provider/MessageProvider";
 
 const HomePage = () => {
   const LOCAL_IP = window.location.hostname;
   const [user, setUser] = useState(null);
+  const messageApi = useMessage();
   const [userCode, setUserCode] = useState("");
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [error, setError] = useState(null);
@@ -51,9 +53,11 @@ const HomePage = () => {
         user_name: user.user_name,
         user_totalWorkingMinutes: user.user_totalWorkingMinutes,
       });
-      alert("Ажил эхэллээ! Өнөөдрийн ажилд тань амжилт хүсье!");
+      messageApi.success("Ажил эхэллээ! Өнөөдрийн ажилд тань амжилт хүсье!");
       setIsStarted(true);
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       setError(error);
     }
@@ -61,15 +65,13 @@ const HomePage = () => {
 
   const handleWorkEnd = async (userId) => {
     try {
-      const response = await axios.post(
-        `http://${LOCAL_IP}:3000/api/time/end`,
-        {
-          user_id: userId,
-        }
-      );
-      alert("Ажил дууслаа! Сайхан амраарай!");
-      window.location.reload();
-      console.log(response);
+      await axios.post(`http://${LOCAL_IP}:3000/api/time/end`, {
+        user_id: userId,
+      });
+      messageApi.success("Ажил дууслаа! Сайхан амраарай!");
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       setError(error);
     }
