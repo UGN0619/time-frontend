@@ -1,55 +1,27 @@
-import "../Style/Header.css";
+import React from "react";
+import { Menu, Layout } from "antd";
 import logo from "../Images/logo.png";
 
-function Header() {
+const { Header } = Layout;
+
+const items = ["1", "2", "3"].map((key) => ({
+  key,
+  label: `nav ${key}`,
+}));
+
+const AppHeader = () => {
   return (
-    <div className="header">
-      <a href="/">
-        <img
-          src={logo}
-          alt="logo"
-          width={"80px"}
-          style={{ marginLeft: "20px" }}
-        />
-      </a>
-      <div className="links">
-        <div style={{ padding: "10px", display: "flex" }}>
-          <a href="/addworker" className="btn">
-            {" "}
-            Шинэ ажилтан нэмэх
-          </a>
-        </div>
-
-        <div style={{ padding: "10px", display: "flex" }}>
-          <a href="/time-tracker" className="btn">
-            {" "}
-            Цагийн хүснэгт
-          </a>
-        </div>
-
-        <div style={{ padding: "10px", display: "flex" }}>
-          <a href="/info" className="btn">
-            {" "}
-            Бидний тухай
-          </a>
-        </div>
-
-        <div style={{ padding: "10px", display: "flex" }}>
-          <a href="/task" className="btn">
-            {" "}
-            Таск
-          </a>
-        </div>
-
-        <div style={{ padding: "10px", display: "flex" }}>
-          <a href="/attendance" className="btn">
-            {" "}
-            Ирц бүртгэл
-          </a>
-        </div>
-      </div>
-    </div>
+    <Header style={{ display: "flex", alignItems: "center" }}>
+      <img src={logo} alt="logo" width="80px" style={{ marginLeft: "20px" }} />
+      <Menu
+        theme="dark"
+        mode="horizontal"
+        defaultSelectedKeys={["2"]}
+        items={items}
+        style={{ flex: 1, minWidth: 0 }}
+      />
+    </Header>
   );
-}
+};
 
-export default Header;
+export default AppHeader;

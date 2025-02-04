@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "../index.css";
-import Header from "../Component/Header";
-import Footer from "../Component/Footer";
-import "../Style/App.css";
+import { Layout, theme, Input, Button } from "antd";
 import axios from "axios";
-import { Button, Input } from "antd";
+import AppHeader from "../Component/Header";
+import Sidebar from "../Component/SideBar";
+import ContentSection from "../Component/ContentSection";
 
 const HomePage = () => {
   const LOCAL_IP = "https://time-backend.onrender.com";
@@ -16,6 +15,10 @@ const HomePage = () => {
   const [startedTime, setStartedTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [totalWorkedMinutes, setTotalWorkedMinutes] = useState(null);
+
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
 
   useEffect(() => {
     const interval = setInterval(() => setCurrentDateTime(new Date()), 1000);
@@ -61,12 +64,11 @@ const HomePage = () => {
 
   const handleWorkEnd = async (userId) => {
     try {
-      const response = await axios.post(`${LOCAL_IP}/api/time/end`, {
+      await axios.post(`${LOCAL_IP}/api/time/end`, {
         user_id: userId,
       });
       alert("Ажил дууслаа! Сайхан амраарай!");
       window.location.reload();
-      console.log(response);
     } catch (error) {
       setError(error);
     }
@@ -75,103 +77,85 @@ const HomePage = () => {
   const handleCodeChange = (e) => setUserCode(e.target.value);
 
   return (
-    <div>
-      <Header />
-      <div className="main-container">
-        <div
-          className="container"
-          style={{
-            marginTop: "50px",
-            marginBottom: "50px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "50vh",
-          }}
-        >
-          {error && <div className="errorMessage">{error.message}</div>}
-          <h1 className="title">{formatTitle(currentDateTime)}</h1>
-          <div className="sub-container">
-            <Input
-              placeholder="Ажилчины код оруулна уу."
-              value={userCode}
-              onChange={handleCodeChange}
-              size="large"
-              className="input-code"
-            />
-            <Button
-              style={{ marginLeft: "10px" }}
-              type="primary"
-              size="large"
-              onClick={() => getUser(userCode)}
-            >
-              ХАЙХ
-            </Button>
-          </div>
-
-          {user && (
-            <div className="sub-container-2">
-              <div className="user-info">
-                <h2 className="user-name">Ажилчины нэр: {user.user_name}</h2>
-                <p>Ажилчины код: {user.user_id}</p>
-                {startedTime ? (
-                  <p>
-                    Ажил эхэлсэн цаг:{" "}
-                    {new Date(startedTime).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </p>
-                ) : (
-                  ""
-                )}
-                {endTime ? (
-                  <p>
-                    Ажил дууссан цаг:{" "}
-                    {new Date(endTime).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </p>
-                ) : (
-                  ""
-                )}
-                {totalWorkedMinutes ? (
-                  <p>Нийт ажилласан цаг: {totalWorkedMinutes} минут </p>
-                ) : (
-                  ""
-                )}
-                <div>
-                  {!isStarted ? (
-                    <button
-                      className="btn1"
-                      style={{
-                        display: endTime ? "none" : "block",
-                      }}
-                      onClick={() => handleWorkStart(user)}
-                    >
-                      Ажил эхэллэх
-                    </button>
-                  ) : (
-                    <button
-                      className="btn1"
-                      style={{
-                        display: endTime ? "none" : "block",
-                        backgroundColor: "red",
-                      }}
-                      onClick={() => handleWorkEnd(user.user_id)}
-                    >
-                      Ажил дуусгах
-                    </button>
+    <body style={{ margin: "0" }}>
+      <Layout style={{ minHeight: "100vh", margin: "0" }}>
+        <AppHeader />
+        <Layout>
+          <Sidebar background={colorBgContainer} />
+          <ContentSection
+            background={colorBgContainer}
+            borderRadius={borderRadiusLG}
+          >
+            {error && <div className="errorMessage">{error.message}</div>}
+            <h1 className="title">{formatTitle(currentDateTime)}</h1>
+            <div className="sub-container">
+              <Input
+                placeholder="Ажилчины код оруулна уу."
+                value={userCode}
+                onChange={handleCodeChange}
+                size="large"
+                className="input-code"
+              />
+              <Button
+                style={{ marginLeft: "10px" }}
+                type="primary"
+                size="large"
+                onClick={() => getUser(userCode)}
+              >
+                ХАЙХ
+              </Button>
+            </div>
+            {user && (
+              <div className="sub-container-2">
+                <div className="user-info">
+                  <h2 className="user-name">Ажилчины нэр: {user.user_name}</h2>
+                  <p>Ажилчины код: {user.user_id}</p>
+                  {startedTime && (
+                    <p>
+                      Ажил эхэлсэн цаг:{" "}
+                      {new Date(startedTime).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
                   )}
+                  {endTime && (
+                    <p>
+                      Ажил дууссан цаг:{" "}
+                      {new Date(endTime).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                  )}
+                  {totalWorkedMinutes && (
+                    <p>Нийт ажилласан цаг: {totalWorkedMinutes} минут</p>
+                  )}
+                  <div>
+                    {!isStarted ? (
+                      <button
+                        className="btn1"
+                        onClick={() => handleWorkStart(user)}
+                      >
+                        Ажил эхэллэх
+                      </button>
+                    ) : (
+                      <button
+                        className="btn1"
+                        style={{ backgroundColor: "red" }}
+                        onClick={() => handleWorkEnd(user.user_id)}
+                      >
+                        Ажил дуусгах
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-      </div>
-      <Footer />
-    </div>
+            )}
+          </ContentSection>
+        </Layout>
+      </Layout>
+    </body>
   );
 };
 
