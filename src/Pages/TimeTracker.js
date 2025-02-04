@@ -1,8 +1,6 @@
-import Header from "../Component/Header";
-import Footer from "../Component/Footer";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { DatePicker, Button } from "antd";
+import { DatePicker, Button, Breadcrumb } from "antd";
 
 const { RangePicker } = DatePicker;
 
@@ -123,7 +121,14 @@ const TimeTracker = () => {
 
   return (
     <div>
-      <Header />
+      <Breadcrumb
+        items={[
+          { title: "Нүүр" },
+          { title: "Ажилчид" },
+          { title: "Цагийн хүснэгт" },
+        ]}
+        style={{ margin: "16px 0" }}
+      />
       <div style={{ fontFamily: "Arial, sans-serif", margin: "20px" }}>
         {error && (
           <div
@@ -243,7 +248,6 @@ const TimeTracker = () => {
           </tbody>
         </table>
       </div>
-      <Footer />
     </div>
   );
 };

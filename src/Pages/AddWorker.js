@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Header from "../Component/Header";
-import Footer from "../Component/Footer";
 import { useNavigate } from "react-router-dom";
 import { Modal, Input, Button, Form } from "antd";
 import "../Style/Add.css";
 import profilePicture from "../Images/profile.png";
+import { useMessage } from "../Provider/MessageProvider";
 
 const AddWorkerPage = () => {
   const LOCAL_IP = window.location.hostname;
@@ -26,6 +25,7 @@ const AddWorkerPage = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(true);
   const [enteredCode, setEnteredCode] = useState("");
+  const messageUtil = useMessage();
 
   const calculateTotalWorkingMinutes = (workingHours, workingMinutes) => {
     const hours = parseInt(workingHours) || 0;
@@ -50,7 +50,7 @@ const AddWorkerPage = () => {
         user_totalWorkingMinutes: totalMinutes,
       })
       .then(() => {
-        alert("Амжилттай хадгалагдлаа!");
+        messageUtil.success("Амжилттай хадгалагдлаа!");
         resetForm();
         navigate("/");
       })
@@ -66,7 +66,7 @@ const AddWorkerPage = () => {
     if (enteredCode === "2226") {
       setIsModalVisible(false);
     } else {
-      alert("Буруу код");
+      messageUtil.error("Буруу код");
     }
   };
 
@@ -87,7 +87,6 @@ const AddWorkerPage = () => {
 
   return (
     <div>
-      <Header />
       <div
         className="container"
         style={{ height: "120vh", marginTop: "20px", marginBottom: "20px" }}
@@ -177,7 +176,6 @@ const AddWorkerPage = () => {
           <Button onClick={() => navigate("/")}>Буцах</Button>
         </div>
       </div>
-      <Footer />
 
       <Modal
         title="Админ код оруулна уу"

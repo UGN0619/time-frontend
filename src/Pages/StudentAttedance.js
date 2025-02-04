@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../index.css";
 import Header from "../Component/Header";
-import Footer from "../Component/Footer";
 import "../Style/App.css";
 import axios from "axios";
 import { Button, Input } from "antd";
@@ -122,7 +121,6 @@ const StudentAttendancePage = () => {
           )}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

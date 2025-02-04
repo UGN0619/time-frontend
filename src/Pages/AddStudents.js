@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Header from "../Component/Header";
-import Footer from "../Component/Footer";
 import { useNavigate } from "react-router-dom";
 import { Modal, Input, Button, Form } from "antd";
 import "../Style/Add.css";
 import profilePicture from "../Images/profile.png";
+import { useMessage } from "../Provider/MessageProvider";
 
 const AddStudentPage = () => {
   const LOCAL_IP = window.location.hostname;
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
   const [newWorker, setNewWorker] = useState({
     student_id: "",
     name: "",
@@ -23,6 +21,7 @@ const AddStudentPage = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(true);
   const [enteredCode, setEnteredCode] = useState("");
+  const messageUtil = useMessage();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,15 +34,13 @@ const AddStudentPage = () => {
         ...newWorker,
       })
       .then(() => {
-        alert("Амжилттай хадгалагдлаа!");
+        messageUtil.success("Амжилттай хадгалагдлаа!");
         resetForm();
-        navigate("/");
+        navigate("/info-students");
       })
       .catch((error) => {
         // Check if the error response has a message and display it
-        const errorMessage =
-          error?.response?.data?.message || error.message || "Алдаа гарлаа";
-        setError(errorMessage);
+        messageUtil.error(`Алдаа гарлаа!: ${error.response.data}`);
       });
   };
 
@@ -69,13 +66,11 @@ const AddStudentPage = () => {
 
   return (
     <div>
-      <Header />
       <div
         className="container"
         style={{ height: "120vh", marginTop: "20px", marginBottom: "20px" }}
       >
-        {error && <div className="errorMessage">{error}</div>}
-        <h1 className="header-h1">Ажилчны мэдээллүүд</h1>
+        <h1 className="header-h1">Сурагчийн мэдээллүүд</h1>
 
         <div className="profilePictureContainer">
           <div className="profilePictureBox">
@@ -90,7 +85,7 @@ const AddStudentPage = () => {
         </div>
 
         <Form layout="vertical" className="formWrapper">
-          <Form.Item label="Ажилчны код">
+          <Form.Item label="Сурагчийн код">
             <Input
               name="student_id"
               value={newWorker.student_id}
@@ -99,7 +94,7 @@ const AddStudentPage = () => {
             />
           </Form.Item>
 
-          <Form.Item label="Ажилчны нэр">
+          <Form.Item label="Сурагчийн нэр">
             <Input
               name="name"
               value={newWorker.name}
@@ -107,7 +102,7 @@ const AddStudentPage = () => {
             />
           </Form.Item>
 
-          <Form.Item label="Ажилчны майл хаяг">
+          <Form.Item label="Сурагчийн майл хаяг">
             <Input
               name="email"
               value={newWorker.email}
@@ -115,7 +110,7 @@ const AddStudentPage = () => {
             />
           </Form.Item>
 
-          <Form.Item label="Ажилчны утасны дугаар">
+          <Form.Item label="Сурагчийн утасны дугаар">
             <Input
               name="user_phone"
               value={newWorker.user_phone}
@@ -124,28 +119,28 @@ const AddStudentPage = () => {
             />
           </Form.Item>
 
-          <Form.Item label="Нэг өдөр ажиллах хугацаа (цагаар)">
+          <Form.Item label="Сурагчийн анги">
             <Input
-              name="user_workingHours"
-              value={newWorker.user_workingHours}
+              name="role"
+              value={newWorker.role}
               onChange={handleInputChange}
-              type="number"
+              type="text"
             />
           </Form.Item>
 
-          <Form.Item label="Нэг өдөр ажиллах хугацаа (минутаар)">
+          <Form.Item label="Сурагчийн боловсрол">
             <Input
-              name="user_workingMinutes"
-              value={newWorker.user_workingMinutes}
+              name="education"
+              value={newWorker.education}
               onChange={handleInputChange}
-              type="number"
+              type="text"
             />
           </Form.Item>
 
-          <Form.Item label="Ажилчны үүрэг">
+          <Form.Item label="Сурагчийн socail хаяг">
             <Input
-              name="user_role"
-              value={newWorker.user_role}
+              name="social"
+              value={newWorker.social}
               onChange={handleInputChange}
               type="text"
             />
@@ -159,7 +154,6 @@ const AddStudentPage = () => {
           <Button onClick={() => navigate("/")}>Буцах</Button>
         </div>
       </div>
-      <Footer />
 
       <Modal
         title="Админ код оруулна уу"

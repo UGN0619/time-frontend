@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../index.css";
-import Header from "../Component/Header";
-import Footer from "../Component/Footer";
 import "../Style/App.css";
 import axios from "axios";
-import { Button, Input } from "antd";
+import { Input, Button } from "antd";
 
 const HomePage = () => {
   const LOCAL_IP = window.location.hostname;
@@ -80,82 +78,78 @@ const HomePage = () => {
   const handleCodeChange = (e) => setUserCode(e.target.value);
 
   return (
-    <div>
-      <Header />
-      <div className="main-container">
-        <div
-          className="container"
-          style={{
-            marginTop: "50px",
-            marginBottom: "50px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "50vh",
-          }}
-        >
-          {error && <div className="errorMessage">{error.message}</div>}
-          <h1 className="title">{formatTitle(currentDateTime)}</h1>
-          <div className="sub-container">
-            <Input
-              placeholder="Ажилчины код оруулна уу."
-              value={userCode}
-              onChange={handleCodeChange}
-              size="large"
-              className="input-code"
-            />
-            <Button
-              style={{ marginLeft: "10px" }}
-              type="primary"
-              size="large"
-              onClick={() => getUser(userCode)}
-            >
-              ХАЙХ
-            </Button>
-          </div>
+    <div className="main-container">
+      <div
+        className="container"
+        style={{
+          marginTop: "50px",
+          marginBottom: "50px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "50vh",
+        }}
+      >
+        {error && <div className="errorMessage">{error.message}</div>}
+        <h1 className="title">{formatTitle(currentDateTime)}</h1>
+        <div className="sub-container">
+          <Input
+            placeholder="Ажилчины код оруулна уу."
+            value={userCode}
+            onChange={handleCodeChange}
+            size="large"
+            className="input-code"
+          />
+          <Button
+            style={{ marginLeft: "10px" }}
+            type="primary"
+            size="large"
+            onClick={() => getUser(userCode)}
+          >
+            ХАЙХ
+          </Button>
+        </div>
 
-          {user && (
-            <div className="sub-container-2">
-              <div className="user-info">
-                <h2 className="user-name">Ажилчины нэр: {user.user_name}</h2>
-                <p>Ажилчины код: {user.user_id}</p>
-                {startedTime ? <p>Ажил эхэлсэн цаг: {startedTime}</p> : ""}
-                {endTime ? <p>Ажил дууссан цаг: {endTime}</p> : ""}
-                {totalWorkedMinutes ? (
-                  <p>Нийт ажилласан цаг: {totalWorkedMinutes} минут </p>
+        {user && (
+          <div className="sub-container-2">
+            <div className="user-info">
+              <h2 className="user-name">Ажилчины нэр: {user.user_name}</h2>
+              <p>Ажилчины код: {user.user_id}</p>
+              {startedTime ? <p>Ажил эхэлсэн цаг: {startedTime}</p> : ""}
+              {endTime ? <p>Ажил дууссан цаг: {endTime}</p> : ""}
+              {totalWorkedMinutes ? (
+                <p>Нийт ажилласан цаг: {totalWorkedMinutes} минут </p>
+              ) : (
+                ""
+              )}
+              <div>
+                {!isStarted ? (
+                  <button
+                    className="btn1"
+                    style={{
+                      display: endTime ? "none" : "block",
+                    }}
+                    onClick={() => handleWorkStart(user)}
+                  >
+                    Ажил эхэллэх
+                  </button>
                 ) : (
-                  ""
+                  <button
+                    className="btn1"
+                    style={{
+                      display: endTime ? "none" : "block",
+                      backgroundColor: "red",
+                    }}
+                    onClick={() => handleWorkEnd(user.user_id)}
+                  >
+                    Ажил дуусгах
+                  </button>
                 )}
-                <div>
-                  {!isStarted ? (
-                    <button
-                      className="btn1"
-                      style={{
-                        display: endTime ? "none" : "block",
-                      }}
-                      onClick={() => handleWorkStart(user)}
-                    >
-                      Ажил эхэллэх
-                    </button>
-                  ) : (
-                    <button
-                      className="btn1"
-                      style={{
-                        display: endTime ? "none" : "block",
-                        backgroundColor: "red",
-                      }}
-                      onClick={() => handleWorkEnd(user.user_id)}
-                    >
-                      Ажил дуусгах
-                    </button>
-                  )}
-                </div>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-      <Footer />
     </div>
   );
 };

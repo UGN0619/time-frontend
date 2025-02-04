@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Header from "../Component/Header";
-import Footer from "../Component/Footer";
 import { DatePicker, Input } from "antd";
 import axios from "axios";
 import AttendanceTable from "../Component/AttendanceTable"; // Import the AttendanceTable component
@@ -88,7 +86,6 @@ const Attendance = () => {
 
   return (
     <div>
-      <Header />
       <div style={{ fontFamily: "Arial, sans-serif", margin: "20px" }}>
         <h1 style={{ textAlign: "center", color: "#61abff" }}>Ирц бүртгэл</h1>
         <div
@@ -117,7 +114,6 @@ const Attendance = () => {
           />
         ))}
       </div>
-      <Footer />
     </div>
   );
 };
