@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal, Input, Card, Row, Col, DatePicker } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import Header from "../Component/Header";
-import Footer from "../Component/Footer";
 import moment from "moment";
 
 const TaskBoard = () => {
@@ -87,7 +85,6 @@ const TaskBoard = () => {
 
   return (
     <>
-      <Header />
       <div style={{ padding: "20px" }}>
         <h1>Хийх ажлын самбар</h1>
         <Button
@@ -225,7 +222,6 @@ const TaskBoard = () => {
           />
         </Modal>
       </div>
-      <Footer />
     </>
   );
 };

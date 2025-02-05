@@ -1,87 +1,74 @@
 import React, { useState, useEffect } from "react";
 import "../index.css";
-import Header from "../Component/Header";
-import Footer from "../Component/Footer";
 import "../Style/App.css";
 import axios from "axios";
 import { Button, Input } from "antd";
 
-const HomePage = () => {
+const StudentAttendancePage = () => {
+  const user_id = window.location.pathname.split("/")[2];
   const LOCAL_IP = window.location.hostname;
-  const [user, setUser] = useState(null);
-  const [userCode, setUserCode] = useState("");
-  const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [studentId, setStudentId] = useState("");
+  const [student, setStudent] = useState(null);
   const [error, setError] = useState(null);
-  const [isStarted, setIsStarted] = useState(false);
-  const [startedTime, setStartedTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
-  const [totalWorkedMinutes, setTotalWorkedMinutes] = useState(null);
+  const [teacher, setTeacher] = useState(null);
 
   useEffect(() => {
-    const interval = setInterval(() => setCurrentDateTime(new Date()), 1000);
-    return () => clearInterval(interval);
+    getTeachers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const formatTitle = (date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1; // Months are 0-based
-    const day = date.getDate();
-    return `${year} оны ${month} сарын ${day} ны цаг бүртгэл`;
-  };
-
-  const getUser = async (userId) => {
+  const getStudent = async (studentId) => {
+    if (!studentId) {
+      alert("Сурагчийн код оруулна уу.");
+      return;
+    }
     try {
       const response = await axios.get(
-        `http://${LOCAL_IP}:3000/api/time/today/${userId}`
+        `http://${LOCAL_IP}:3000/api/students/${studentId}`
       );
-      setUser(response.data.data);
-      setIsStarted(response.data.isStarted);
-      setStartedTime(response.data.startedTime);
-      setEndTime(response.data.endTime);
-      setTotalWorkedMinutes(response.data.totalWorkedMinutes);
+      setStudent(response.data);
       setError(null);
     } catch (error) {
-      setUser(null);
+      setStudent(null);
+      setError(new Error("Сурагч олдсонгүй!"));
+    }
+  };
+
+  const getTeachers = async () => {
+    try {
+      const response = await axios.get(`http://${LOCAL_IP}:3000/api/users/`);
+      const foundTeacher = response.data.find((t) => t.user_id === user_id);
+      if (foundTeacher) {
+        setTeacher(foundTeacher);
+        setError(null);
+      } else {
+        setError(new Error("Багш байхгүй байна!"));
+      }
+    } catch (error) {
       setError(error);
     }
   };
 
-  const handleWorkStart = async (user) => {
+  const attendance = async (teacherId, studentId) => {
+    if (!studentId) {
+      alert("Сурагчийн код оруулна уу.");
+      return;
+    }
     try {
-      await axios.post(`http://${LOCAL_IP}:3000/api/time/start`, {
-        user_id: user.user_id,
-        user_name: user.user_name,
-        user_totalWorkingMinutes: user.user_totalWorkingMinutes,
+      await axios.post(`http://${LOCAL_IP}:3000/api/attendance`, {
+        user_id: teacherId,
+        student_id: studentId,
       });
-      alert("Ажил эхэллээ! Өнөөдрийн ажилд тань амжилт хүсье!");
-      setIsStarted(true);
-      window.location.reload();
+      alert("Амжилттай бүртгэгдлээ!");
+      setStudent(null);
+      setStudentId("");
     } catch (error) {
       setError(error);
     }
   };
-
-  const handleWorkEnd = async (userId) => {
-    try {
-      const response = await axios.post(
-        `http://${LOCAL_IP}:3000/api/time/end`,
-        {
-          user_id: userId,
-        }
-      );
-      alert("Ажил дууслаа! Сайхан амраарай!");
-      window.location.reload();
-      console.log(response);
-    } catch (error) {
-      setError(error);
-    }
-  };
-
-  const handleCodeChange = (e) => setUserCode(e.target.value);
 
   return (
     <div>
-      <Header />
       <div className="main-container">
         <div
           className="container"
@@ -95,12 +82,14 @@ const HomePage = () => {
           }}
         >
           {error && <div className="errorMessage">{error.message}</div>}
-          <h1 className="title">{formatTitle(currentDateTime)}</h1>
+          <h1 className="title">
+            {teacher?.user_name || "Багш"} багшийн ирц бүртгэл
+          </h1>
           <div className="sub-container">
             <Input
-              placeholder="Ажилчины код оруулна уу."
-              value={userCode}
-              onChange={handleCodeChange}
+              placeholder="Сурагчийн код оруулна уу."
+              value={studentId}
+              onChange={(e) => setStudentId(e.target.value)}
               size="large"
               className="input-code"
             />
@@ -108,56 +97,30 @@ const HomePage = () => {
               style={{ marginLeft: "10px" }}
               type="primary"
               size="large"
-              onClick={() => getUser(userCode)}
+              onClick={() => getStudent(studentId)}
             >
               ХАЙХ
             </Button>
           </div>
 
-          {user && (
+          {student && (
             <div className="sub-container-2">
               <div className="user-info">
-                <h2 className="user-name">Ажилчины нэр: {user.user_name}</h2>
-                <p>Ажилчины код: {user.user_id}</p>
-                {startedTime ? <p>Ажил эхэлсэн цаг: {startedTime}</p> : ""}
-                {endTime ? <p>Ажил дууссан цаг: {endTime}</p> : ""}
-                {totalWorkedMinutes ? (
-                  <p>Нийт ажилласан цаг: {totalWorkedMinutes} минут </p>
-                ) : (
-                  ""
-                )}
-                <div>
-                  {!isStarted ? (
-                    <button
-                      className="btn1"
-                      style={{
-                        display: endTime ? "none" : "block",
-                      }}
-                      onClick={() => handleWorkStart(user)}
-                    >
-                      Ажил эхэллэх
-                    </button>
-                  ) : (
-                    <button
-                      className="btn1"
-                      style={{
-                        display: endTime ? "none" : "block",
-                        backgroundColor: "red",
-                      }}
-                      onClick={() => handleWorkEnd(user.user_id)}
-                    >
-                      Ажил дуусгах
-                    </button>
-                  )}
-                </div>
+                <h2 className="user-name">Сайн уу? {student.name}</h2>
+                <button
+                  className="btn1"
+                  style={{ display: teacher && student ? "block" : "none" }}
+                  onClick={() => attendance(teacher.user_id, studentId)}
+                >
+                  Бүртгүүлэх
+                </button>
               </div>
             </div>
           )}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
 
-export default HomePage;
+export default StudentAttendancePage;
