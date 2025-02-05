@@ -109,69 +109,6 @@ const HomePage = () => {
             ХАЙХ
           </Button>
         </div>
-
-          {user && (
-            <div className="sub-container-2">
-              <div className="user-info">
-                <h2 className="user-name">Ажилчины нэр: {user.user_name}</h2>
-                <p>Ажилчины код: {user.user_id}</p>
-                {startedTime ? (
-                  <p>
-                    Ажил эхэлсэн цаг:{" "}
-                    {new Date(startedTime).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </p>
-                ) : (
-                  ""
-                )}
-                {endTime ? (
-                  <p>
-                    Ажил дууссан цаг:{" "}
-                    {new Date(endTime).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </p>
-                ) : (
-                  ""
-                )}
-                {totalWorkedMinutes ? (
-                  <p>Нийт ажилласан цаг: {totalWorkedMinutes} минут </p>
-                ) : (
-                  ""
-                )}
-                <div>
-                  {!isStarted ? (
-                    <button
-                      className="btn1"
-                      style={{
-                        display: endTime ? "none" : "block",
-                      }}
-                      onClick={() => handleWorkStart(user)}
-                    >
-                      Ажил эхэллэх
-                    </button>
-                  ) : (
-                    <button
-                      className="btn1"
-                      style={{
-                        display: endTime ? "none" : "block",
-                        backgroundColor: "red",
-                      }}
-                      onClick={() => handleWorkEnd(user.user_id)}
-                    >
-                      Ажил дуусгах
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-      <Footer />
         {user && (
           <div className="sub-container-2">
             <div className="user-info">
