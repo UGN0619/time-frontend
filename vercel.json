@@ -1,6 +1,6 @@
 {
     "redirects": [
-      { "source": "/(.*)", "destination": "/maintenance.html", "statusCode": 302 }
+      { "source": "/(.*)", "destination": "./public/maintenance.html", "statusCode": 302 }
     ]
   }
   
