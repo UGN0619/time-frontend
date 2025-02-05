@@ -6,7 +6,7 @@ import { Button, Input } from "antd";
 
 const StudentAttendancePage = () => {
   const user_id = window.location.pathname.split("/")[2];
-  const LOCAL_IP = window.location.hostname;
+  const LOCAL_IP = "https://time-backend.onrender.com";
   const [studentId, setStudentId] = useState("");
   const [student, setStudent] = useState(null);
   const [error, setError] = useState(null);
@@ -23,9 +23,7 @@ const StudentAttendancePage = () => {
       return;
     }
     try {
-      const response = await axios.get(
-        `http://${LOCAL_IP}:3000/api/students/${studentId}`
-      );
+      const response = await axios.get(`${LOCAL_IP}/api/students/${studentId}`);
       setStudent(response.data);
       setError(null);
     } catch (error) {
@@ -36,7 +34,7 @@ const StudentAttendancePage = () => {
 
   const getTeachers = async () => {
     try {
-      const response = await axios.get(`http://${LOCAL_IP}:3000/api/users/`);
+      const response = await axios.get(`${LOCAL_IP}/api/users/`);
       const foundTeacher = response.data.find((t) => t.user_id === user_id);
       if (foundTeacher) {
         setTeacher(foundTeacher);
@@ -55,7 +53,7 @@ const StudentAttendancePage = () => {
       return;
     }
     try {
-      await axios.post(`http://${LOCAL_IP}:3000/api/attendance`, {
+      await axios.post(`${LOCAL_IP}/api/attendance`, {
         user_id: teacherId,
         student_id: studentId,
       });

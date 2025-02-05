@@ -3,7 +3,7 @@ import { DatePicker, Input } from "antd";
 import axios from "axios";
 import AttendanceTable from "../Component/AttendanceTable"; // Import the AttendanceTable component
 
-const LOCAL_IP = window.location.hostname;
+const LOCAL_IP = "https://time-backend.onrender.com";
 
 const generateDatesForMonth = (year, month) => {
   return Array.from(
@@ -27,7 +27,7 @@ const Attendance = () => {
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const { data } = await axios.get(`http://${LOCAL_IP}:3000/api/users`);
+        const { data } = await axios.get(`${LOCAL_IP}/api/users`);
         setTeachers(data);
       } catch (error) {
         console.error("Error fetching teachers:", error);
@@ -35,9 +35,7 @@ const Attendance = () => {
     };
     const fetchStudents = async () => {
       try {
-        const { data } = await axios.get(
-          `http://${LOCAL_IP}:3000/api/students`
-        );
+        const { data } = await axios.get(`${LOCAL_IP}/api/students`);
         setStudents(data);
       } catch (error) {
         console.error("Error fetching students:", error);
@@ -55,7 +53,7 @@ const Attendance = () => {
           selectedMonth.getMonth() + 1
         ).padStart(2, "0")}`;
         const { data } = await axios.get(
-          `http://${LOCAL_IP}:3000/api/attendance/month/${month}`
+          `${LOCAL_IP}/api/attendance/month/${month}`
         );
         setAttendance(data);
       } catch (error) {

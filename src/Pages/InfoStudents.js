@@ -17,7 +17,7 @@ const { Meta } = Card;
 const { Option } = Select;
 
 const InfoStudentsPage = () => {
-  const LOCAL_IP = window.location.hostname;
+  const LOCAL_IP = "https://time-backend.onrender.com";
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]); // Filtered users for display
@@ -36,7 +36,7 @@ const InfoStudentsPage = () => {
   // Fetch user data on mount
   useEffect(() => {
     axios
-      .get(`http://${LOCAL_IP}:3000/api/students`)
+      .get(`${LOCAL_IP}/api/students`)
       .then((response) => {
         const fetchedUsers = response.data;
         setUsers(fetchedUsers);
@@ -101,10 +101,7 @@ const InfoStudentsPage = () => {
       .validateFields()
       .then((values) => {
         axios
-          .put(
-            `http://${LOCAL_IP}:3000/api/students/${selectedUser.student_id}`,
-            values
-          )
+          .put(`${LOCAL_IP}/api/students/${selectedUser.student_id}`, values)
           .then(() => {
             console.log("Edit successful");
             setIsModalVisible(false);
@@ -136,7 +133,7 @@ const InfoStudentsPage = () => {
     if (!selectedUser) return;
 
     axios
-      .delete(`http://${LOCAL_IP}:3000/api/students/${selectedUser.student_id}`)
+      .delete(`${LOCAL_IP}/api/students/${selectedUser.student_id}`)
       .then(() => {
         // Remove user from state after successful deletion
         setUsers(

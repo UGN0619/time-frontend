@@ -7,7 +7,7 @@ import profilePicture from "../Images/profile.png";
 import { useMessage } from "../Provider/MessageProvider";
 
 const AddStudentPage = () => {
-  const LOCAL_IP = window.location.hostname;
+  const LOCAL_IP = "https://time-backend.onrender.com";
   const navigate = useNavigate();
   const [newWorker, setNewWorker] = useState({
     student_id: "",
@@ -30,7 +30,7 @@ const AddStudentPage = () => {
 
   const handleSaveWorker = () => {
     axios
-      .post(`http://${LOCAL_IP}:3000/api/students`, {
+      .post(`${LOCAL_IP}/api/students`, {
         ...newWorker,
       })
       .then(() => {
