@@ -99,6 +99,7 @@ const HomePage = () => {
             placeholder="Ажилчины код оруулна уу."
             value={userCode}
             onChange={handleCodeChange}
+            onPressEnter={() => getUser(userCode)}
             size="large"
             className="input-code"
           />
