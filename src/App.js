@@ -8,6 +8,7 @@ import AddWorker from "./Pages/AddWorker";
 import Attendance from "./Pages/Attedance";
 import StudentAttendancePage from "./Pages/StudentAttedance";
 import AddStudentPage from "./Pages/AddStudents";
+import Meeting from "./Pages/Meeting";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/student-attendance" element={<StudentAttendancePage />} />
         <Route path="/add-student" element={<AddStudentPage />} />
+        <Route path="/meeting" element={<Meeting />} />
       </Routes>
     </Router>
   );

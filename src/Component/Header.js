@@ -47,6 +47,12 @@ function Header() {
             Ирц бүртгэл
           </a>
         </div>
+        <div style={{ padding: "10px", display: "flex" }}>
+          <a href="/meeting" className="btn">
+            {" "}
+            Хурал
+          </a>
+        </div>
       </div>
     </div>
   );
